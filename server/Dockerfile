@@ -28,7 +28,7 @@ COPY --from=backend --chown=app:app /out/adminctl /app/adminctl
 COPY --from=backend --chown=app:app /src/server/migrations /app/migrations
 COPY --from=frontend --chown=app:app /src/dist /app/public
 USER app
-ENV HTTP_ADDRESS=:8080 MIGRATIONS_DIR=/app/migrations STATIC_DIRECTORY=/app/public
-EXPOSE 8080
+ENV HTTP_ADDRESS=:9003 MIGRATIONS_DIR=/app/migrations STATIC_DIRECTORY=/app/public
+EXPOSE 9003
 ENTRYPOINT []
 CMD ["/app/api"]

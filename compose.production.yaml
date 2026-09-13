@@ -56,12 +56,12 @@ services:
       migrate:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health/ready"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9003/health/ready"]
       interval: 10s
       timeout: 3s
       retries: 12
     ports:
-      - "127.0.0.1:${HTTP_PORT:-8080}:8080"
+      - "127.0.0.1:${HTTP_PORT:-9003}:9003"
 
   adminctl:
     image: ${HISTORY_WIKI_IMAGE:?set HISTORY_WIKI_IMAGE}

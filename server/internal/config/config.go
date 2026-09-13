@@ -38,7 +38,7 @@ func Load() (Config, error) {
 		return Config{}, err
 	}
 	configuration := Config{
-		Address:             envOrDefault("HTTP_ADDRESS", ":8080"),
+		Address:             envOrDefault("HTTP_ADDRESS", ":9003"),
 		DatabaseURL:         databaseURL,
 		PublicBaseURL:       strings.TrimRight(os.Getenv("PUBLIC_BASE_URL"), "/"),
 		SessionCookie:       envOrDefault("SESSION_COOKIE_NAME", "__Host-history_wiki_session"),

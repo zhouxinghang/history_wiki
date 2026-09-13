@@ -32,19 +32,19 @@ services:
       dockerfile: server/Dockerfile
     environment:
       DATABASE_URL: postgres://history_wiki:history_wiki@postgres:5432/history_wiki?sslmode=disable
-      HTTP_ADDRESS: :8080
+      HTTP_ADDRESS: :9003
       PUBLIC_BASE_URL: http://localhost:5173
       SESSION_COOKIE_NAME: __Host-history_wiki_session
     depends_on:
       migrate:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health/ready"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9003/health/ready"]
       interval: 5s
       timeout: 3s
       retries: 20
     ports:
-      - "8080:8080"
+      - "9003:9003"
 
   adminctl:
     build:

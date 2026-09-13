@@ -8,7 +8,7 @@
 docker compose up --build
 ```
 
-API 默认监听 `http://localhost:8080`。存活检查为 `/health/live`，数据库就绪检查为 `/health/ready`。
+API 默认监听 `http://localhost:9003`。存活检查为 `/health/live`，数据库就绪检查为 `/health/ready`。
 
 数据库迁移完成后，通过一次性交互式命令创建首位管理员。命令不会创建默认账号或默认密码，且系统已有任意账号时会拒绝再次初始化：
 
