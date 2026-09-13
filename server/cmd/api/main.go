@@ -40,6 +40,7 @@ func main() {
 			PublicBaseURL:      configuration.PublicBaseURL,
 			SessionCookieName:  configuration.SessionCookie,
 			CSRFCookieName:     configuration.CSRFCookie,
+			AllowInsecureHTTP:  configuration.AllowInsecureHTTP,
 			StaticDirectory:    configuration.StaticDirectory,
 			TrustedProxyCount:  configuration.TrustedProxyCount,
 			SessionIdleTimeout: configuration.SessionIdleTimeout,

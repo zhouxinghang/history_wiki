@@ -63,7 +63,7 @@ export async function login(
 }
 
 export async function logout(): Promise<void> {
-  const csrfToken = readCookie('__Host-history_wiki_csrf')
+  const csrfToken = readCookie('history_wiki_csrf') ?? readCookie('__Host-history_wiki_csrf')
   const response = await fetch('/api/v1/auth/logout', {
     method: 'POST',
     credentials: 'same-origin',
@@ -148,7 +148,7 @@ async function writeRequest(
   body: unknown,
   extraHeaders: Record<string, string> = {},
 ): Promise<unknown> {
-  const csrfToken = readCookie('__Host-history_wiki_csrf')
+  const csrfToken = readCookie('history_wiki_csrf') ?? readCookie('__Host-history_wiki_csrf')
   const response = await fetch(path, {
     method,
     credentials: 'same-origin',

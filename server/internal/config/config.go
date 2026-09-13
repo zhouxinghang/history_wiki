@@ -20,6 +20,7 @@ type Config struct {
 	PublicBaseURL       string
 	SessionCookie       string
 	CSRFCookie          string
+	AllowInsecureHTTP   bool
 	TrustedProxyCount   int
 	LogLevel            slog.Level
 	StaticDirectory     string
@@ -57,6 +58,13 @@ func Load() (Config, error) {
 	}
 	if configuration.PublicBaseURL == "" {
 		return Config{}, errors.New("PUBLIC_BASE_URL is required")
+	}
+	if configuration.AllowInsecureHTTP, err = boolEnv("ALLOW_INSECURE_HTTP", false); err != nil {
+		return Config{}, err
+	}
+	if configuration.AllowInsecureHTTP {
+		configuration.SessionCookie = insecureCookieName(configuration.SessionCookie)
+		configuration.CSRFCookie = insecureCookieName(configuration.CSRFCookie)
 	}
 	if configuration.TrustedProxyCount, err = intEnv("TRUSTED_PROXY_COUNT", 0, 0, 16); err != nil {
 		return Config{}, err
@@ -138,6 +146,22 @@ func envOrDefault(name, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func boolEnv(name string, fallback bool) (bool, error) {
+	raw := strings.TrimSpace(os.Getenv(name))
+	if raw == "" {
+		return fallback, nil
+	}
+	value, err := strconv.ParseBool(raw)
+	if err != nil {
+		return false, fmt.Errorf("%s must be true or false", name)
+	}
+	return value, nil
+}
+
+func insecureCookieName(name string) string {
+	return strings.TrimPrefix(strings.TrimPrefix(name, "__Host-"), "__Secure-")
 }
 
 func intEnv(name string, fallback, minimum, maximum int) (int, error) {

@@ -107,6 +107,7 @@ type Config struct {
 	Now                func() time.Time
 	DummyPasswordHash  string
 	PasswordParams     auth.Argon2idParams
+	AllowInsecureHTTP  bool
 }
 
 func DefaultConfig() Config {
@@ -622,6 +623,9 @@ func (server *Server) requireSameOrigin(next http.Handler) http.Handler {
 }
 
 func (server *Server) sameOrigin(request *http.Request) bool {
+	if server.config.AllowInsecureHTTP {
+		return true
+	}
 	source := request.Header.Get("Origin")
 	if source == "" {
 		source = request.Header.Get("Referer")
@@ -652,7 +656,7 @@ func (server *Server) setSessionCookies(writer http.ResponseWriter, token, csrfT
 		Value:    token,
 		Path:     "/",
 		Expires:  expires,
-		Secure:   true,
+		Secure:   !server.config.AllowInsecureHTTP,
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
 	})
@@ -661,7 +665,7 @@ func (server *Server) setSessionCookies(writer http.ResponseWriter, token, csrfT
 		Value:    csrfToken,
 		Path:     "/",
 		Expires:  expires,
-		Secure:   true,
+		Secure:   !server.config.AllowInsecureHTTP,
 		HttpOnly: false,
 		SameSite: http.SameSiteLaxMode,
 	})
@@ -675,7 +679,7 @@ func (server *Server) clearSessionCookies(writer http.ResponseWriter) {
 			Path:     "/",
 			MaxAge:   -1,
 			Expires:  time.Unix(1, 0),
-			Secure:   true,
+			Secure:   !server.config.AllowInsecureHTTP,
 			HttpOnly: cookieName == server.config.SessionCookieName,
 			SameSite: http.SameSiteLaxMode,
 		})

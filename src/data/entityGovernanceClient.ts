@@ -65,7 +65,7 @@ function resourcePath(resource: GovernedEntityResource): string {
 }
 
 function managementHeaders(extra: Record<string, string>): Record<string, string> {
-  const csrfToken = readCookie('__Host-history_wiki_csrf')
+  const csrfToken = readCookie('history_wiki_csrf') ?? readCookie('__Host-history_wiki_csrf')
   return {
     'Content-Type': 'application/json',
     ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),

@@ -194,7 +194,7 @@ async function writeEventRequest(
   body: unknown | undefined,
   extraHeaders: Record<string, string>,
 ): Promise<Response> {
-  const csrfToken = readCookie('__Host-history_wiki_csrf')
+  const csrfToken = readCookie('history_wiki_csrf') ?? readCookie('__Host-history_wiki_csrf')
   const response = await fetch(path, {
     method,
     credentials: 'same-origin',
