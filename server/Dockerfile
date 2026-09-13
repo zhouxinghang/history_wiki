@@ -6,6 +6,7 @@ RUN npm ci
 COPY index.html tsconfig*.json vite.config.ts eslint.config.js ./
 COPY src ./src
 COPY scripts ./scripts
+COPY testdata ./testdata
 RUN npm run build
 
 FROM golang:1.26-alpine AS backend
