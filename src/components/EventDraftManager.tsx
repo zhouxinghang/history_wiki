@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
+import { randomUUID } from '../data/randomUUID'
 import { listCanonicalEntities, type ManagedCanonicalEntity } from '../data/canonicalEntityClient'
 import { listContextEntities, type ContextEntity } from '../data/contextEntityClient'
 import {
@@ -262,7 +263,7 @@ export default function EventDraftManager({ userRole = 'editor' }: { userRole?: 
         await loadEvents()
         setMessage(`已保存“${updated.draft?.title || updated.slug}”的活动草稿。`)
       } else {
-        createKey.current ??= globalThis.crypto.randomUUID()
+        createKey.current ??= randomUUID()
         const created = await createManagedEvent(slug, draft, createKey.current)
         createKey.current = null
         setCreating(false)

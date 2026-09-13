@@ -1,3 +1,5 @@
+import { randomUUID } from './randomUUID'
+
 export type RegionStatus = 'active' | 'inactive' | 'merged'
 
 export interface Region {
@@ -82,7 +84,7 @@ export async function updateRegion(
 }
 
 export function newIdempotencyKey(): string {
-  return globalThis.crypto.randomUUID()
+  return randomUUID()
 }
 
 function managementHeaders(extra: Record<string, string>): Record<string, string> {

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
+import { randomUUID } from '../data/randomUUID'
 import type { UserRole } from '../data/authClient'
 import {
   ContextEntityManagementError,
@@ -124,7 +125,7 @@ export default function ContextEntityManager({ kind, userRole, regionsVersion = 
     }
     setSubmitting(true)
     setMessage('')
-    createKey.current ??= globalThis.crypto.randomUUID()
+    createKey.current ??= randomUUID()
     try {
       const created = await createContextEntity(kind, {
         name: String(data.get('name') ?? ''),

@@ -1,3 +1,5 @@
+import { randomUUID } from './randomUUID'
+
 export type CanonicalEntityStatus = 'active' | 'inactive' | 'merged'
 export type CanonicalEntityResource = 'regions' | 'figures' | 'topic-tags'
 export type CanonicalEntityListField = 'regions' | 'figures' | 'topicTags'
@@ -83,7 +85,7 @@ export async function updateCanonicalEntity(
 }
 
 export function newIdempotencyKey(): string {
-  return globalThis.crypto.randomUUID()
+  return randomUUID()
 }
 
 function managementHeaders(extra: Record<string, string>): Record<string, string> {

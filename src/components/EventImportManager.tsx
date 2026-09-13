@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import type { UserRole } from '../data/authClient'
+import { randomUUID } from '../data/randomUUID'
 import {
   EventImportError,
   MAX_EVENT_IMPORT_BYTES,
@@ -53,7 +54,7 @@ export default function EventImportManager({ userRole }: { userRole: UserRole })
       setEvents(records as EventImportRecord[])
       setPhase('idle')
       setMessage(`已读取 ${records.length.toLocaleString()} 条记录，请先执行预检查。`)
-      idempotencyKey.current = globalThis.crypto.randomUUID()
+      idempotencyKey.current = randomUUID()
     } catch (error) {
       setPhase('idle')
       setMessage(errorMessage(error, '无法读取导入文件。'))
@@ -78,7 +79,7 @@ export default function EventImportManager({ userRole }: { userRole: UserRole })
 
   async function submit() {
     if (userRole !== 'administrator' || !validation?.valid) return
-    idempotencyKey.current ??= globalThis.crypto.randomUUID()
+    idempotencyKey.current ??= randomUUID()
     setPhase('importing')
     setMessage(`正在以单个事务导入 ${events.length.toLocaleString()} 条活动草稿，请勿关闭页面…`)
     try {
