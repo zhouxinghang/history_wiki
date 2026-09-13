@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-09-13T06:22:02Z",
+  "postgresqlVersion": "17.11 (Homebrew)",
+  "events": 100000,
+  "emptyAfterMigration": true,
+  "poolMaxConnections": 20,
+  "scenarios": [
+    {
+      "name": "wide-range",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 66.56,
+      "thresholdMs": 200,
+      "returnedEvents": 4000,
+      "totalMatching": 100000,
+      "returnedProminence": 1,
+      "passed": true,
+      "description": "宽范围自动降为 L1，返回 4,000 条"
+    },
+    {
+      "name": "narrow-high-density",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 56.47,
+      "thresholdMs": 200,
+      "returnedEvents": 4020,
+      "totalMatching": 4020,
+      "returnedProminence": 3,
+      "passed": true,
+      "description": "窄范围高密度，返回 4,020 条"
+    },
+    {
+      "name": "chinese-substring",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 91.24,
+      "thresholdMs": 200,
+      "returnedEvents": 1000,
+      "totalMatching": 1000,
+      "returnedProminence": 1,
+      "passed": true,
+      "description": "中文字面子串搜索，命中 1,000 条"
+    },
+    {
+      "name": "multi-dimension",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 133.38,
+      "thresholdMs": 200,
+      "returnedEvents": 666,
+      "totalMatching": 16666,
+      "returnedProminence": 1,
+      "passed": true,
+      "description": "时期/地区/人物/主分类多维筛选"
+    },
+    {
+      "name": "event-detail",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 1.04,
+      "thresholdMs": 100,
+      "passed": true,
+      "description": "不可变 ID 详情"
+    },
+    {
+      "name": "metadata",
+      "samples": 20,
+      "status": 200,
+      "p95Ms": 69.72,
+      "thresholdMs": 100,
+      "passed": true,
+      "description": "公开筛选元数据"
+    },
+    {
+      "name": "management-write",
+      "samples": 20,
+      "status": 201,
+      "p95Ms": 1.25,
+      "thresholdMs": 500,
+      "passed": true,
+      "description": "真实 Session、CSRF、审计和事务边界下创建地区"
+    }
+  ],
+  "peak100Qps": {
+    "requests": 100,
+    "elapsedMs": 991.93,
+    "p95Ms": 2.79,
+    "errors": 0,
+    "passed": true
+  },
+  "oversizedResult": {
+    "status": 422,
+    "code": "result_set_too_large",
+    "passed": true
+  },
+  "passed": true
+}

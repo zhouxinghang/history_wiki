@@ -1,0 +1,2334 @@
+openapi: 3.1.0
+info:
+  title: History Wiki API
+  version: 0.1.0
+  description: 历史 Wiki 的公开读者 API。空数据库行为是本契约的一等状态。
+  license:
+    name: Unlicensed
+servers:
+  - url: /
+security: []
+paths:
+  /health/live:
+    get:
+      operationId: getLiveness
+      summary: 检查服务进程是否存活
+      responses:
+        "200":
+          description: 服务进程存活
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+  /health/ready:
+    get:
+      operationId: getReadiness
+      summary: 检查数据库连接和迁移版本是否就绪
+      responses:
+        "200":
+          description: 服务已就绪
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadinessResponse"
+        "503":
+          $ref: "#/components/responses/Problem"
+  /metrics:
+    get:
+      operationId: getMetrics
+      summary: 导出 Prometheus 文本指标
+      description: 仅供受网络策略保护的监控系统访问，不包含用户、历史事件或查询字符串等高基数标签。
+      responses:
+        "200":
+          description: Prometheus exposition format
+          content:
+            text/plain:
+              schema: { type: string }
+  /api/v1/event-bounds:
+    get:
+      operationId: getEventBounds
+      summary: 查询全部已发布历史事件的时间边界
+      responses:
+        "200":
+          description: 空数据库返回 hasEvents=false，且 start/end 为 null
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventBounds"
+              examples:
+                empty:
+                  value: { hasEvents: false, start: null, end: null }
+        "503":
+          $ref: "#/components/responses/Problem"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/event-metadata:
+    get:
+      operationId: getEventMetadata
+      summary: 查询已发布历史事件使用的筛选元数据
+      responses:
+        "200":
+          description: 筛选元数据；空数据库返回全部空数组
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventFilterMetadata"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/events:
+    get:
+      operationId: queryEvents
+      summary: 查询当前时间范围内的已发布历史事件
+      parameters:
+        - $ref: "#/components/parameters/From"
+        - $ref: "#/components/parameters/To"
+        - name: q
+          in: query
+          description: 在标题、摘要、正文、地点、历史人物和主题标签中做字面子串搜索；拉丁字符不区分大小写
+          schema: { type: string, maxLength: 100 }
+        - name: period
+          in: query
+          schema: { type: array, items: { type: string, format: uuid } }
+          explode: true
+        - name: region
+          in: query
+          schema: { type: array, items: { type: string, format: uuid } }
+          explode: true
+        - name: figure
+          in: query
+          schema: { type: array, items: { type: string, format: uuid } }
+          explode: true
+        - name: category
+          in: query
+          schema:
+            type: array
+            items: { $ref: "#/components/schemas/PrimaryCategory" }
+          explode: true
+      responses:
+        "200":
+          description: 完整查询结果；空数据库返回空 events 和零计数
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventQueryResult"
+              examples:
+                empty:
+                  value:
+                    events: []
+                    sourceTotal: 0
+                    totalMatching: 0
+                    returnedProminence: 3
+        "400":
+          $ref: "#/components/responses/Problem"
+        "422":
+          description: 显著度筛选后超过 5,000 条，必须缩小时间范围
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/events/{eventId}:
+    get:
+      operationId: getEventById
+      summary: 按不可变标识查询已发布历史事件
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: 已发布历史事件
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HistoricalEvent"
+        "400":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/auth/login:
+    post:
+      operationId: login
+      summary: 使用本地邮箱和密码建立服务端会话
+      description: 请求必须来自 PUBLIC_BASE_URL 对应的同源页面；成功后设置 HttpOnly Session Cookie 和可读的 CSRF Cookie。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: 登录成功
+          headers:
+            Set-Cookie:
+              description: Secure、SameSite=Lax 的 Session 与 CSRF Cookie
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentUserResponse"
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          description: 邮箱不存在、密码错误或账号停用均返回同一响应
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+        "503":
+          $ref: "#/components/responses/Problem"
+  /api/v1/auth/logout:
+    post:
+      operationId: logout
+      summary: 撤销当前服务端会话
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+      responses:
+        "204":
+          description: 会话已撤销且 Cookie 已清除
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/auth/me:
+    get:
+      operationId: getCurrentUser
+      summary: 获取当前登录账号和角色
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: 当前账号
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentUserResponse"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+  /api/v1/auth/change-password:
+    post:
+      operationId: changeOwnPassword
+      summary: 修改当前账号密码并撤销全部会话
+      description: 编辑者和管理员均可使用；必须提交当前密码，成功后当前会话也会失效并清除 Cookie。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ChangePasswordRequest" }
+      responses:
+        "204":
+          description: 密码已修改，账号的全部 Session 已撤销
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin:
+    get:
+      operationId: getAdminBoundary
+      summary: 验证管理 API 的统一会话边界
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: 已通过管理区认证
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, user]
+                properties:
+                  status: { type: string, const: authenticated }
+                  user: { $ref: "#/components/schemas/CurrentUser" }
+        "401":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+  /api/v1/admin/users:
+    get:
+      operationId: listManagedUsers
+      summary: 列出保留的编辑者和管理员账号
+      description: 仅管理员可用；停用账号仍返回，账号不提供物理删除接口。
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: 账号列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedUserListResponse" }
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+    post:
+      operationId: createManagedUser
+      summary: 创建编辑者或管理员账号
+      description: 仅管理员可用；不开放公开注册或邮件找回。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateManagedUserRequest" }
+      responses:
+        "201":
+          description: 账号已创建
+          headers:
+            Location:
+              schema: { type: string }
+            ETag:
+              description: 账号当前并发版本的强 ETag。
+              schema: { type: string, pattern: '^"[1-9][0-9]*"$' }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedUser" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/users/{userId}:
+    patch:
+      operationId: updateManagedUser
+      summary: 修改账号角色或停用状态
+      description: 仅管理员可用；角色变化或停用会撤销目标账号全部 Session，且不能停用或降级最后一个有效管理员。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateManagedUserRequest" }
+      responses:
+        "200":
+          description: 账号已更新
+          headers:
+            ETag:
+              description: 账号更新后的强 ETag。
+              schema: { type: string, pattern: '^"[1-9][0-9]*"$' }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedUser" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "428":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/users/{userId}/reset-password:
+    post:
+      operationId: resetManagedUserPassword
+      summary: 重置账号密码并撤销全部会话
+      description: 仅管理员可用；服务端不会通过邮件发送或返回密码。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ResetPasswordRequest" }
+      responses:
+        "204":
+          description: 密码已重置，账号的全部 Session 已撤销
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events:
+    get:
+      operationId: listManagedEvents
+      summary: 列出历史事件及其活动草稿
+      security:
+        - sessionCookie: []
+      responses:
+        "200":
+          description: 管理区历史事件列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEventListResponse" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+    post:
+      operationId: createManagedEvent
+      summary: 创建历史事件和唯一活动草稿
+      description: 草稿可以暂时缺少发布必填内容；历史事件标识是不可变 UUIDv7，slug 全局唯一。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateManagedEventRequest" }
+      responses:
+        "201":
+          description: 历史事件及活动草稿已创建
+          headers:
+            ETag: { schema: { type: string, pattern: '^"draft-[1-9][0-9]*"$' } }
+            Location: { schema: { type: string } }
+            Idempotency-Replayed: { schema: { type: string, enum: ["true"] } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events/{eventId}:
+    get:
+      operationId: getManagedEvent
+      summary: 查询历史事件和活动草稿
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: 历史事件管理详情；存在活动草稿时 ETag 为草稿版本。
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+    patch:
+      operationId: updateManagedEventSlug
+      summary: 修改历史事件 slug
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/EventIfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateManagedEventSlugRequest" }
+      responses:
+        "200":
+          description: slug 已修改
+          headers:
+            ETag: { schema: { type: string, pattern: '^"event-[1-9][0-9]*"$' } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events/{eventId}/draft:
+    post:
+      operationId: createManagedEventDraft
+      summary: 从当前发布版本建立唯一活动草稿
+      description: 读者继续读取当前发布版本；已有活动草稿时返回 409，绝不覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+      responses:
+        "201":
+          description: 已从当前发布版本建立活动草稿
+          headers:
+            ETag: { schema: { type: string, pattern: '^"draft-[1-9][0-9]*"$' } }
+            Location: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "429":
+          $ref: "#/components/responses/RateLimited"
+    patch:
+      operationId: updateManagedEventDraft
+      summary: 整体替换唯一活动草稿内容和规范实体关联
+      description: '使用 `If-Match: "draft-N"` 防止并发覆盖；过期版本返回 409 和最新 ETag。'
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/DraftIfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventDraftWriteInput" }
+      responses:
+        "200":
+          description: 活动草稿已保存
+          headers:
+            ETag: { schema: { type: string, pattern: '^"draft-[1-9][0-9]*"$' } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events/{eventId}/publish:
+    post:
+      operationId: publishManagedEvent
+      summary: 将活动草稿发布为不可变事件版本
+      description: 仅管理员可用；发布时重新校验 slug、内容长度、展示顺序、关联数量及规范实体有效状态，关联行锁、版本写入、当前版本切换、公开搜索投影和审计在同一事务中完成。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/DraftIfMatch"
+      responses:
+        "200":
+          description: 活动草稿已发布，响应为读者立即可见的当前事件版本
+          headers:
+            Location: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HistoricalEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events/{eventId}/archive:
+    post:
+      operationId: archiveManagedEvent
+      summary: 下线当前已发布的历史事件
+      description: 仅管理员可用；保留当前版本和活动草稿，并在同一事务中删除公开搜索投影、切换发布状态和写入审计。已下线事件从所有公开接口及计数中消失。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/EventIfMatch"
+      responses:
+        "200":
+          description: 历史事件已下线，管理区仍可读取事件、活动草稿和全部发布版本
+          headers:
+            ETag: { schema: { type: string, pattern: '^"event-[1-9][0-9]*"$' } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/events/{eventId}/revisions:
+    get:
+      operationId: listManagedEventRevisions
+      summary: 按版本号倒序列出历史事件的全部发布版本
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: 发布版本列表，包含发布人、发布时间和当前版本标记
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEventRevisionListResponse" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/events/{eventId}/revisions/{revisionNo}:
+    get:
+      operationId: getManagedEventRevision
+      summary: 查看指定的不可变事件版本
+      description: 关联只存稳定规范实体 ID，响应名称始终读取规范实体当前值。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: revisionNo
+          in: path
+          required: true
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: 指定发布版本的完整内容
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEventRevision" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/events/{eventId}/revisions/{revisionNo}/restore:
+    post:
+      operationId: restoreManagedEventRevision
+      summary: 将指定事件版本复制为新的活动草稿
+      description: 不修改或直接激活旧版本；已有活动草稿时返回 409，绝不覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - name: revisionNo
+          in: path
+          required: true
+          schema: { type: integer, minimum: 1 }
+        - $ref: "#/components/parameters/CSRFToken"
+      responses:
+        "201":
+          description: 已复制为唯一活动草稿，旧版本保持不变
+          headers:
+            ETag: { schema: { type: string, pattern: '^"draft-[1-9][0-9]*"$' } }
+            Location: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ManagedEvent" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/event-imports/preflight:
+    post:
+      operationId: preflightEventImport
+      summary: 只读预检查批量历史事件草稿
+      description: 编辑者和管理员均可使用；返回逐条字段及业务错误，不创建幂等记录、审计、历史事件、活动草稿或批次记录。请求最多 10,000 条且 JSON 请求体最多 20 MiB。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventImportRequest" }
+      responses:
+        "200":
+          description: 预检查结果；存在错误时仍返回 200 且 valid=false
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EventImportValidation" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "413": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/event-imports:
+    post:
+      operationId: importEventDrafts
+      summary: 以单个事务批量导入历史事件活动草稿
+      description: 仅管理员可用；所有记录创建为未发布历史事件及活动草稿，绝不更新既有历史事件或发布内容。UUID、slug 或关联冲突会使整批回滚。相同账号、幂等键和请求返回原批次结果。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventImportRequest" }
+      responses:
+        "201":
+          description: 整批历史事件活动草稿已经提交；幂等重放返回同一批次内容
+          headers:
+            Idempotency-Replayed: { schema: { type: string, enum: ["true"] } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EventImportBatch" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "413": { $ref: "#/components/responses/Problem" }
+        "422":
+          description: 字段、UUID、slug 或规范实体关联冲突，且整批未写入
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EventImportValidation" }
+
+        "503": { $ref: "#/components/responses/Problem" }
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/regions/{entityId}/merge-impact:
+    get:
+      operationId: getRegionMergeImpact
+      summary: 计算地区合并影响
+      description: 仅管理员可用；返回需要明确确认的活动草稿、不可变版本和当前公开事件数量。
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+      responses:
+        "200": { description: 合并影响, content: { application/json: { schema: { $ref: "#/components/schemas/EntityMergeImpact" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/regions/{entityId}/merge:
+    post:
+      operationId: mergeRegion
+      summary: 将地区合并到同类型有效目标
+      description: 旧 ID 和不可变版本不改写；读取与筛选解析到最终目标，搜索投影与审计在同一事务刷新。
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityRequest" } } } }
+      responses:
+        "200": { description: 地区已合并, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityResponse" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/regions:
+    get:
+      operationId: listRegions
+      summary: 列出或搜索地区
+      description: 编辑者和管理员均可查询地区；名称相同的地区通过消歧名称和稳定 ID 区分。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string, maxLength: 100 }
+          description: 在当前名称和消歧名称中执行不区分拉丁文字大小写的子串搜索。
+        - name: status
+          in: query
+          schema: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        "200":
+          description: 地区列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RegionListResponse" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+    post:
+      operationId: createRegion
+      summary: 创建地区
+      description: 编辑者和管理员均可创建地区；同一账号重复使用相同幂等键和请求内容时返回首次创建的地区。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateRegionRequest" }
+      responses:
+        "201":
+          description: 地区已创建；幂等重放仍返回相同状态和实体，并设置 Idempotency-Replayed。
+          headers:
+            ETag:
+              schema: { type: string }
+            Location:
+              schema: { type: string }
+            Idempotency-Replayed:
+              schema: { type: string, enum: ["true"] }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Region" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/regions/{regionId}:
+    patch:
+      operationId: updateRegion
+      summary: 修改地区
+      description: 只有管理员可以修改当前名称、消歧名称或有效状态；使用强 ETag 防止并发静默覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: regionId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateRegionRequest" }
+      responses:
+        "200":
+          description: 地区已修改
+          headers:
+            ETag:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Region" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "428":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/figures/{entityId}/merge-impact:
+    get:
+      operationId: getHistoricalFigureMergeImpact
+      summary: 计算历史人物合并影响
+      security: [{ sessionCookie: [] }]
+      parameters: [{ $ref: "#/components/parameters/EntityId" }]
+      responses:
+        "200": { description: 合并影响, content: { application/json: { schema: { $ref: "#/components/schemas/EntityMergeImpact" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/figures/{entityId}/merge:
+    post:
+      operationId: mergeHistoricalFigure
+      summary: 将历史人物合并到同类型有效目标
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityRequest" } } } }
+      responses:
+        "200": { description: 历史人物已合并, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityResponse" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/figures:
+    get:
+      operationId: listHistoricalFigures
+      summary: 列出或搜索历史人物
+      description: 编辑者和管理员均可查询历史人物；同名人物通过消歧名称和稳定 ID 区分。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string, maxLength: 100 }
+          description: 在当前名称和消歧名称中执行不区分拉丁文字大小写的子串搜索。
+        - name: status
+          in: query
+          schema: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        "200":
+          description: 历史人物列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HistoricalFigureListResponse" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+    post:
+      operationId: createHistoricalFigure
+      summary: 创建历史人物
+      description: 编辑者和管理员均可创建历史人物；正式名称允许重复，消歧名称和稳定 ID 用于选择正确人物。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateCanonicalEntityRequest" }
+      responses:
+        "201":
+          description: 历史人物已创建
+          headers:
+            ETag:
+              schema: { type: string }
+            Location:
+              schema: { type: string }
+            Idempotency-Replayed:
+              schema: { type: string, enum: ["true"] }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HistoricalFigure" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/figures/{figureId}:
+    patch:
+      operationId: updateHistoricalFigure
+      summary: 修改历史人物
+      description: 只有管理员可以修改当前名称、消歧名称或有效状态；使用强 ETag 防止并发静默覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: figureId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateCanonicalEntityRequest" }
+      responses:
+        "200":
+          description: 历史人物已修改
+          headers:
+            ETag:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HistoricalFigure" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "428":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/topic-tags/{entityId}/merge-impact:
+    get:
+      operationId: getTopicTagMergeImpact
+      summary: 计算主题标签合并影响
+      security: [{ sessionCookie: [] }]
+      parameters: [{ $ref: "#/components/parameters/EntityId" }]
+      responses:
+        "200": { description: 合并影响, content: { application/json: { schema: { $ref: "#/components/schemas/EntityMergeImpact" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/topic-tags/{entityId}/merge:
+    post:
+      operationId: mergeTopicTag
+      summary: 将主题标签合并到同类型有效目标
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityRequest" } } } }
+      responses:
+        "200": { description: 主题标签已合并, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityResponse" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/topic-tags:
+    get:
+      operationId: listTopicTags
+      summary: 列出或搜索主题标签
+      description: 编辑者和管理员均可查询主题标签，并使用稳定 ID 选择事件关联项。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string, maxLength: 100 }
+          description: 在当前名称和消歧名称中执行不区分拉丁文字大小写的子串搜索。
+        - name: status
+          in: query
+          schema: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        "200":
+          description: 主题标签列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TopicTagListResponse" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+    post:
+      operationId: createTopicTag
+      summary: 创建主题标签
+      description: 编辑者和管理员均可创建主题标签；同一账号重复使用相同幂等键和请求内容时返回首次创建的标签。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateCanonicalEntityRequest" }
+      responses:
+        "201":
+          description: 主题标签已创建
+          headers:
+            ETag:
+              schema: { type: string }
+            Location:
+              schema: { type: string }
+            Idempotency-Replayed:
+              schema: { type: string, enum: ["true"] }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TopicTag" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/topic-tags/{topicTagId}:
+    patch:
+      operationId: updateTopicTag
+      summary: 修改主题标签
+      description: 只有管理员可以修改当前名称、消歧名称或有效状态；使用强 ETag 防止并发静默覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: topicTagId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateCanonicalEntityRequest" }
+      responses:
+        "200":
+          description: 主题标签已修改
+          headers:
+            ETag:
+              schema: { type: string }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TopicTag" }
+        "400":
+          $ref: "#/components/responses/Problem"
+        "401":
+          $ref: "#/components/responses/Problem"
+        "403":
+          $ref: "#/components/responses/Problem"
+        "404":
+          $ref: "#/components/responses/Problem"
+        "409":
+          $ref: "#/components/responses/Problem"
+        "422":
+          $ref: "#/components/responses/Problem"
+        "428":
+          $ref: "#/components/responses/Problem"
+        "503":
+          $ref: "#/components/responses/Problem"
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/places/{entityId}/merge-impact:
+    get:
+      operationId: getPlaceMergeImpact
+      summary: 计算地点合并影响
+      security: [{ sessionCookie: [] }]
+      parameters: [{ $ref: "#/components/parameters/EntityId" }]
+      responses:
+        "200": { description: 合并影响, content: { application/json: { schema: { $ref: "#/components/schemas/EntityMergeImpact" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/places/{entityId}/merge:
+    post:
+      operationId: mergePlace
+      summary: 将地点合并到同类型有效目标
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityRequest" } } } }
+      responses:
+        "200": { description: 地点已合并, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityResponse" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/places:
+    get:
+      operationId: listPlaces
+      summary: 列出或搜索地点及其地区关系
+      description: 编辑者和管理员均可查询地点；同名地点由消歧名称和稳定 ID 区分。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/EntityQuery"
+        - $ref: "#/components/parameters/EntityStatus"
+        - $ref: "#/components/parameters/EntityLimit"
+      responses:
+        "200":
+          description: 地点列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlaceListResponse" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+    post:
+      operationId: createPlace
+      summary: 创建地点并关联零个或多个地区
+      description: 编辑者和管理员均可创建；只能选择当前有效且存在的地区。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateContextEntityRequest" }
+      responses:
+        "201":
+          description: 地点已创建
+          headers:
+            ETag: { schema: { type: string } }
+            Location: { schema: { type: string } }
+            Idempotency-Replayed: { schema: { type: string, enum: ["true"] } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContextEntity" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/places/{placeId}:
+    patch:
+      operationId: updatePlace
+      summary: 修改地点及其地区关系
+      description: 只有管理员可以修改；提交的地区关系整体替换当前关系并使用强 ETag 防止并发覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: placeId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateContextEntityRequest" }
+      responses:
+        "200":
+          description: 地点已修改
+          headers:
+            ETag: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContextEntity" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/periods/{entityId}/merge-impact:
+    get:
+      operationId: getHistoricalPeriodMergeImpact
+      summary: 计算历史时期合并影响
+      security: [{ sessionCookie: [] }]
+      parameters: [{ $ref: "#/components/parameters/EntityId" }]
+      responses:
+        "200": { description: 合并影响, content: { application/json: { schema: { $ref: "#/components/schemas/EntityMergeImpact" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+  /api/v1/admin/periods/{entityId}/merge:
+    post:
+      operationId: mergeHistoricalPeriod
+      summary: 将历史时期合并到同类型有效目标
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EntityId"
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityRequest" } } } }
+      responses:
+        "200": { description: 历史时期已合并, content: { application/json: { schema: { $ref: "#/components/schemas/MergeCanonicalEntityResponse" } } } }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/periods:
+    get:
+      operationId: listHistoricalPeriods
+      summary: 列出或搜索历史时期及其地区语境
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/EntityQuery"
+        - $ref: "#/components/parameters/EntityStatus"
+        - $ref: "#/components/parameters/EntityLimit"
+      responses:
+        "200":
+          description: 历史时期列表
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HistoricalPeriodListResponse" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+    post:
+      operationId: createHistoricalPeriod
+      summary: 创建历史时期及其地区语境
+      description: 编辑者和管理员均可创建；有效历史时期必须关联至少一个当前有效且存在的地区。
+      security:
+        - sessionCookie: []
+      parameters:
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateHistoricalPeriodRequest" }
+      responses:
+        "201":
+          description: 历史时期已创建
+          headers:
+            ETag: { schema: { type: string } }
+            Location: { schema: { type: string } }
+            Idempotency-Replayed: { schema: { type: string, enum: ["true"] } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContextEntity" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+  /api/v1/admin/periods/{periodId}:
+    patch:
+      operationId: updateHistoricalPeriod
+      summary: 修改历史时期及其地区语境
+      description: 只有管理员可以修改；有效历史时期必须保留至少一个地区，并使用强 ETag 防止并发覆盖。
+      security:
+        - sessionCookie: []
+      parameters:
+        - name: periodId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: "#/components/parameters/CSRFToken"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateContextEntityRequest" }
+      responses:
+        "200":
+          description: 历史时期已修改
+          headers:
+            ETag: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContextEntity" }
+        "400": { $ref: "#/components/responses/Problem" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "403": { $ref: "#/components/responses/Problem" }
+        "404": { $ref: "#/components/responses/Problem" }
+        "409": { $ref: "#/components/responses/Problem" }
+        "422": { $ref: "#/components/responses/Problem" }
+        "428": { $ref: "#/components/responses/Problem" }
+        "503": { $ref: "#/components/responses/Problem" }
+        "413":
+          $ref: "#/components/responses/PayloadTooLarge"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: __Host-history_wiki_session
+  parameters:
+    EntityId:
+      name: entityId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    From:
+      name: from
+      in: query
+      required: true
+      schema: { type: number }
+    To:
+      name: to
+      in: query
+      required: true
+      schema: { type: number }
+    CSRFToken:
+      name: X-CSRF-Token
+      in: header
+      required: true
+      description: 必须与 Secure CSRF Cookie 一致，并与当前服务端 Session 绑定。
+      schema: { type: string, minLength: 1 }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: 同一账号和写操作范围内唯一；重试时必须复用相同值与相同请求内容。
+      schema: { type: string, minLength: 1, maxLength: 200 }
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: 使用最近一次资源响应中的强 ETag，例如 `"1"`。
+      schema: { type: string, pattern: '^"[1-9][0-9]*"$' }
+    EventIfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: 历史事件元数据的强 ETag，例如 `"event-3"`。
+      schema: { type: string, pattern: '^"event-[1-9][0-9]*"$' }
+    DraftIfMatch:
+      name: If-Match
+      in: header
+      required: true
+      description: 活动草稿的强 ETag，例如 `"draft-7"`。
+      schema: { type: string, pattern: '^"draft-[1-9][0-9]*"$' }
+    EntityQuery:
+      name: q
+      in: query
+      schema: { type: string, maxLength: 100 }
+      description: 在当前名称和消歧名称中执行不区分拉丁文字大小写的子串搜索。
+    EntityStatus:
+      name: status
+      in: query
+      schema: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+    EntityLimit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+  responses:
+    Problem:
+      description: RFC 9457 Problem Details
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    PayloadTooLarge:
+      description: JSON 请求体超过此操作允许的 2 MiB 或 20 MiB 上限
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    RateLimited:
+      description: 请求超过约定速率
+      headers:
+        Retry-After:
+          description: 建议重试前等待的秒数
+          schema: { type: integer, minimum: 1 }
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    PublicationStatus:
+      type: string
+      enum: [unpublished, published, archived]
+    ManagedEvent:
+      type: object
+      additionalProperties: false
+      required: [id, slug, publicationStatus, lockVersion, draft, createdAt, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$', maxLength: 120 }
+        publicationStatus: { $ref: "#/components/schemas/PublicationStatus" }
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        draft:
+          oneOf:
+            - $ref: "#/components/schemas/ManagedEventDraft"
+            - type: "null"
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    ManagedEventListResponse:
+      type: object
+      additionalProperties: false
+      required: [events]
+      properties:
+        events:
+          type: array
+          items: { $ref: "#/components/schemas/ManagedEvent" }
+    ManagedEventDraft:
+      type: object
+      additionalProperties: false
+      required: [title, summary, narrative, time, primaryCategory, prominence, displayOrder, regions, places, periods, figures, topicTags, lockVersion, basedOnRevisionNo, createdAt, updatedAt]
+      properties:
+        title: { type: string, maxLength: 200 }
+        summary: { type: string, maxLength: 1000 }
+        narrative: { type: string, maxLength: 100000 }
+        time:
+          oneOf:
+            - $ref: "#/components/schemas/TimeExpression"
+            - type: "null"
+        primaryCategory:
+          oneOf:
+            - $ref: "#/components/schemas/PrimaryCategory"
+            - type: "null"
+        prominence:
+          oneOf:
+            - $ref: "#/components/schemas/EventProminence"
+            - type: "null"
+        displayOrder: { type: integer, minimum: -1000000, maximum: 1000000 }
+        regions: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        places: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        periods: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        figures: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        topicTags: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        basedOnRevisionNo:
+          type: [integer, "null"]
+          minimum: 1
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    EventRevisionPublisher:
+      type: object
+      additionalProperties: false
+      required: [id, email]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+    ManagedEventRevisionSummary:
+      type: object
+      additionalProperties: false
+      required: [id, revisionNo, title, publishedBy, publishedAt, current]
+      properties:
+        id: { type: string, format: uuid }
+        revisionNo: { type: integer, minimum: 1 }
+        title: { type: string, minLength: 1, maxLength: 200 }
+        publishedBy: { $ref: "#/components/schemas/EventRevisionPublisher" }
+        publishedAt: { type: string, format: date-time }
+        current: { type: boolean }
+    ManagedEventRevisionListResponse:
+      type: object
+      additionalProperties: false
+      required: [revisions]
+      properties:
+        revisions:
+          type: array
+          items: { $ref: "#/components/schemas/ManagedEventRevisionSummary" }
+    ManagedEventRevision:
+      type: object
+      additionalProperties: false
+      required: [id, eventId, revisionNo, title, summary, narrative, time, primaryCategory, prominence, displayOrder, regions, places, periods, figures, topicTags, publishedBy, publishedAt, current]
+      properties:
+        id: { type: string, format: uuid }
+        eventId: { type: string, format: uuid }
+        revisionNo: { type: integer, minimum: 1 }
+        title: { type: string, minLength: 1, maxLength: 200 }
+        summary: { type: string, minLength: 1, maxLength: 1000 }
+        narrative: { type: string, minLength: 1, maxLength: 100000 }
+        time: { $ref: "#/components/schemas/TimeExpression" }
+        primaryCategory: { $ref: "#/components/schemas/PrimaryCategory" }
+        prominence: { $ref: "#/components/schemas/EventProminence" }
+        displayOrder: { type: integer, minimum: -1000000, maximum: 1000000 }
+        regions: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        places: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        periods: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        figures: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        topicTags: { type: array, items: { $ref: "#/components/schemas/CanonicalEntityReference" } }
+        publishedBy: { $ref: "#/components/schemas/EventRevisionPublisher" }
+        publishedAt: { type: string, format: date-time }
+        current: { type: boolean }
+    EventDraftWriteInput:
+      type: object
+      additionalProperties: false
+      properties:
+        title: { type: string, maxLength: 200, default: "" }
+        summary: { type: string, maxLength: 1000, default: "" }
+        narrative: { type: string, maxLength: 100000, default: "" }
+        time:
+          oneOf:
+            - $ref: "#/components/schemas/TimeExpression"
+            - type: "null"
+        primaryCategory:
+          oneOf:
+            - $ref: "#/components/schemas/PrimaryCategory"
+            - type: "null"
+        prominence:
+          oneOf:
+            - $ref: "#/components/schemas/EventProminence"
+            - type: "null"
+        displayOrder: { type: integer, minimum: -1000000, maximum: 1000000, default: 1000 }
+        regionIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        placeIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        periodIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        figureIds: { type: array, maxItems: 100, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        topicTagIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+    CreateManagedEventRequest:
+      type: object
+      additionalProperties: false
+      required: [slug]
+      properties:
+        slug: { type: string, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$', maxLength: 120 }
+        title: { type: string, maxLength: 200, default: "" }
+        summary: { type: string, maxLength: 1000, default: "" }
+        narrative: { type: string, maxLength: 100000, default: "" }
+        time:
+          oneOf:
+            - $ref: "#/components/schemas/TimeExpression"
+            - type: "null"
+        primaryCategory:
+          oneOf:
+            - $ref: "#/components/schemas/PrimaryCategory"
+            - type: "null"
+        prominence:
+          oneOf:
+            - $ref: "#/components/schemas/EventProminence"
+            - type: "null"
+        displayOrder: { type: integer, minimum: -1000000, maximum: 1000000, default: 1000 }
+        regionIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        placeIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        periodIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        figureIds: { type: array, maxItems: 100, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        topicTagIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+    EventImportRecord:
+      type: object
+      additionalProperties: false
+      required: [id, slug]
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
+          description: 调用方提供的不可变 UUIDv7；导入不会自动替换标识。
+        slug: { type: string, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$', maxLength: 120 }
+        title: { type: string, maxLength: 200, default: "" }
+        summary: { type: string, maxLength: 1000, default: "" }
+        narrative: { type: string, maxLength: 100000, default: "" }
+        time:
+          oneOf:
+            - $ref: "#/components/schemas/TimeExpression"
+            - type: "null"
+        primaryCategory:
+          oneOf:
+            - $ref: "#/components/schemas/PrimaryCategory"
+            - type: "null"
+        prominence:
+          oneOf:
+            - $ref: "#/components/schemas/EventProminence"
+            - type: "null"
+        displayOrder: { type: integer, minimum: -1000000, maximum: 1000000, default: 1000 }
+        regionIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        placeIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        periodIds: { type: array, maxItems: 20, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        figureIds: { type: array, maxItems: 100, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+        topicTagIds: { type: array, maxItems: 50, uniqueItems: true, items: { type: string, format: uuid }, default: [] }
+    EventImportRequest:
+      type: object
+      additionalProperties: false
+      required: [events]
+      properties:
+        events:
+          type: array
+          minItems: 1
+          maxItems: 10000
+          items: { $ref: "#/components/schemas/EventImportRecord" }
+    EventImportIssue:
+      type: object
+      additionalProperties: false
+      required: [index, field, code, detail]
+      properties:
+        index: { type: integer, minimum: 0, description: events 数组中的零基下标 }
+        field: { type: string }
+        code: { type: string }
+        detail: { type: string }
+    EventImportValidation:
+      type: object
+      additionalProperties: false
+      required: [valid, total, errors]
+      properties:
+        valid: { type: boolean }
+        total: { type: integer, minimum: 0, maximum: 10000 }
+        errors:
+          type: array
+          items: { $ref: "#/components/schemas/EventImportIssue" }
+    EventImportBatch:
+      type: object
+      additionalProperties: false
+      required: [batchId, importedCount, eventIds, createdAt]
+      properties:
+        batchId: { type: string, format: uuid }
+        importedCount: { type: integer, minimum: 1, maximum: 10000 }
+        eventIds:
+          type: array
+          minItems: 1
+          maxItems: 10000
+          items: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
+    UpdateManagedEventSlugRequest:
+      type: object
+      additionalProperties: false
+      required: [slug]
+      properties:
+        slug: { type: string, pattern: '^[a-z0-9]+(-[a-z0-9]+)*$', maxLength: 120 }
+    LoginRequest:
+      type: object
+      additionalProperties: false
+      required: [email, password]
+      properties:
+        email: { type: string, format: email, maxLength: 320 }
+        password: { type: string, minLength: 1, maxLength: 1024 }
+    UserRole:
+      type: string
+      enum: [editor, administrator]
+    CurrentUser:
+      type: object
+      additionalProperties: false
+      required: [id, email, role]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        role: { $ref: "#/components/schemas/UserRole" }
+    CurrentUserResponse:
+      type: object
+      additionalProperties: false
+      required: [user]
+      properties:
+        user: { $ref: "#/components/schemas/CurrentUser" }
+    ManagedUser:
+      type: object
+      additionalProperties: false
+      required: [id, email, role, disabledAt, lockVersion, createdAt, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        role: { $ref: "#/components/schemas/UserRole" }
+        disabledAt:
+          type: [string, "null"]
+          format: date-time
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    ManagedUserListResponse:
+      type: object
+      additionalProperties: false
+      required: [users]
+      properties:
+        users:
+          type: array
+          items: { $ref: "#/components/schemas/ManagedUser" }
+    CreateManagedUserRequest:
+      type: object
+      additionalProperties: false
+      required: [email, password, role]
+      properties:
+        email: { type: string, format: email, maxLength: 320 }
+        password: { type: string, minLength: 12, maxLength: 1024 }
+        role: { $ref: "#/components/schemas/UserRole" }
+    UpdateManagedUserRequest:
+      type: object
+      additionalProperties: false
+      required: [role, disabled]
+      properties:
+        role: { $ref: "#/components/schemas/UserRole" }
+        disabled: { type: boolean }
+    ResetPasswordRequest:
+      type: object
+      additionalProperties: false
+      required: [password]
+      properties:
+        password: { type: string, minLength: 12, maxLength: 1024 }
+    ChangePasswordRequest:
+      type: object
+      additionalProperties: false
+      required: [currentPassword, newPassword]
+      properties:
+        currentPassword: { type: string, minLength: 1, maxLength: 1024 }
+        newPassword: { type: string, minLength: 12, maxLength: 1024 }
+    CanonicalEntityStatus:
+      type: string
+      enum: [active, inactive, merged]
+    Region:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - disambiguationLabel
+        - status
+        - mergedIntoId
+        - lockVersion
+        - createdAt
+        - updatedAt
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+        status: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        mergedIntoId: { type: [string, "null"], format: uuid }
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    RegionListResponse:
+      type: object
+      additionalProperties: false
+      required: [regions]
+      properties:
+        regions:
+          type: array
+          items: { $ref: "#/components/schemas/Region" }
+    CreateRegionRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+    UpdateRegionRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+        status:
+          type: string
+          enum: [active, inactive]
+    ManagedCanonicalEntity:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - disambiguationLabel
+        - status
+        - mergedIntoId
+        - lockVersion
+        - createdAt
+        - updatedAt
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+        status: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        mergedIntoId: { type: [string, "null"], format: uuid }
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    HistoricalFigure:
+      $ref: "#/components/schemas/ManagedCanonicalEntity"
+    TopicTag:
+      $ref: "#/components/schemas/ManagedCanonicalEntity"
+    HistoricalFigureListResponse:
+      type: object
+      additionalProperties: false
+      required: [figures]
+      properties:
+        figures:
+          type: array
+          items: { $ref: "#/components/schemas/HistoricalFigure" }
+    TopicTagListResponse:
+      type: object
+      additionalProperties: false
+      required: [topicTags]
+      properties:
+        topicTags:
+          type: array
+          items: { $ref: "#/components/schemas/TopicTag" }
+    CreateCanonicalEntityRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+    UpdateCanonicalEntityRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel, status]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel:
+          type: [string, "null"]
+          maxLength: 120
+        status:
+          type: string
+          enum: [active, inactive]
+    ContextEntity:
+      type: object
+      additionalProperties: false
+      required: [id, name, disambiguationLabel, status, mergedIntoId, regions, lockVersion, createdAt, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        disambiguationLabel: { type: [string, "null"] }
+        status: { $ref: "#/components/schemas/CanonicalEntityStatus" }
+        mergedIntoId: { type: [string, "null"], format: uuid }
+        regions:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        lockVersion: { type: integer, format: int64, minimum: 1 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    PlaceListResponse:
+      type: object
+      additionalProperties: false
+      required: [places]
+      properties:
+        places:
+          type: array
+          items: { $ref: "#/components/schemas/ContextEntity" }
+    HistoricalPeriodListResponse:
+      type: object
+      additionalProperties: false
+      required: [periods]
+      properties:
+        periods:
+          type: array
+          items: { $ref: "#/components/schemas/ContextEntity" }
+    CreateContextEntityRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel, regionIds]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel: { type: [string, "null"], maxLength: 120 }
+        regionIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, format: uuid }
+    CreateHistoricalPeriodRequest:
+      allOf:
+        - $ref: "#/components/schemas/CreateContextEntityRequest"
+        - type: object
+          properties:
+            regionIds:
+              type: array
+              minItems: 1
+              uniqueItems: true
+              items: { type: string, format: uuid }
+    UpdateContextEntityRequest:
+      type: object
+      additionalProperties: false
+      required: [name, disambiguationLabel, status, regionIds]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 120 }
+        disambiguationLabel: { type: [string, "null"], maxLength: 120 }
+        status: { type: string, enum: [active, inactive] }
+        regionIds:
+          type: array
+          uniqueItems: true
+          items: { type: string, format: uuid }
+    EntityMergeImpact:
+      type: object
+      additionalProperties: false
+      required: [draftCount, revisionCount, publishedEventCount]
+      properties:
+        draftCount: { type: integer, minimum: 0 }
+        revisionCount: { type: integer, minimum: 0 }
+        publishedEventCount: { type: integer, minimum: 0 }
+    MergeCanonicalEntityRequest:
+      type: object
+      additionalProperties: false
+      required: [targetId, confirmedImpact]
+      properties:
+        targetId: { type: string, format: uuid }
+        confirmedImpact: { $ref: "#/components/schemas/EntityMergeImpact" }
+    MergeCanonicalEntityResponse:
+      type: object
+      additionalProperties: false
+      required: [entity, impact]
+      properties:
+        entity: { $ref: "#/components/schemas/ManagedCanonicalEntity" }
+        impact: { $ref: "#/components/schemas/EntityMergeImpact" }
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, const: ok }
+    ReadinessResponse:
+      type: object
+      required: [status, migrationVersion]
+      properties:
+        status: { type: string, const: ready }
+        migrationVersion: { type: integer, format: int64 }
+    Problem:
+      type: object
+      required: [type, title, status, detail, code]
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        code: { type: string }
+        requestId: { type: string }
+    EventBounds:
+      oneOf:
+        - type: object
+          required: [hasEvents, start, end]
+          properties:
+            hasEvents: { type: boolean, const: false }
+            start: { type: "null" }
+            end: { type: "null" }
+        - type: object
+          required: [hasEvents, start, end]
+          properties:
+            hasEvents: { type: boolean, const: true }
+            start: { type: number }
+            end: { type: number }
+    EventFilterMetadata:
+      type: object
+      required: [periodGroups, regions, figures, primaryCategories]
+      properties:
+        periodGroups:
+          type: array
+          items:
+            type: object
+            required: [context, periods]
+            properties:
+              context: { $ref: "#/components/schemas/CanonicalEntityReference" }
+              periods:
+                type: array
+                items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        regions:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        figures:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        primaryCategories:
+          type: array
+          items: { $ref: "#/components/schemas/PrimaryCategory" }
+    EventQueryResult:
+      type: object
+      required: [events, sourceTotal, totalMatching, returnedProminence]
+      properties:
+        events:
+          type: array
+          items: { $ref: "#/components/schemas/HistoricalEvent" }
+        sourceTotal: { type: integer, minimum: 0 }
+        totalMatching: { type: integer, minimum: 0 }
+        returnedProminence: { $ref: "#/components/schemas/EventProminence" }
+    HistoricalEvent:
+      type: object
+      required:
+        - id
+        - slug
+        - title
+        - summary
+        - narrative
+        - time
+        - primaryCategory
+        - periods
+        - regions
+        - places
+        - figures
+        - topicTags
+        - prominence
+        - displayOrder
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string }
+        title: { type: string }
+        summary: { type: string }
+        narrative: { type: string }
+        time: { $ref: "#/components/schemas/TimeExpression" }
+        primaryCategory: { $ref: "#/components/schemas/PrimaryCategory" }
+        periods:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        regions:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        places:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        figures:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        topicTags:
+          type: array
+          items: { $ref: "#/components/schemas/CanonicalEntityReference" }
+        prominence: { $ref: "#/components/schemas/EventProminence" }
+        displayOrder: { type: integer }
+    CanonicalEntityReference:
+      type: object
+      required: [id, name, disambiguationLabel]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        disambiguationLabel:
+          type: [string, "null"]
+    TimeExpression:
+      oneOf:
+        - $ref: "#/components/schemas/ExactDateExpression"
+        - $ref: "#/components/schemas/YearExpression"
+        - $ref: "#/components/schemas/CircaExpression"
+        - $ref: "#/components/schemas/IntervalExpression"
+      discriminator:
+        propertyName: kind
+    HistoricalYear:
+      type: object
+      required: [era, year]
+      properties:
+        era: { type: string, enum: [BCE, CE] }
+        year: { type: integer, minimum: 1, maximum: 999999 }
+    ExactDateExpression:
+      type: object
+      required: [kind, date]
+      properties:
+        kind: { type: string, const: exact-date }
+        date:
+          allOf:
+            - $ref: "#/components/schemas/HistoricalYear"
+            - type: object
+              required: [month, day]
+              properties:
+                month: { type: integer, minimum: 1, maximum: 12 }
+                day: { type: integer, minimum: 1, maximum: 31 }
+    YearExpression:
+      type: object
+      required: [kind, year]
+      properties:
+        kind: { type: string, const: year }
+        year: { $ref: "#/components/schemas/HistoricalYear" }
+    CircaExpression:
+      type: object
+      required: [kind, year]
+      properties:
+        kind: { type: string, const: circa }
+        year: { $ref: "#/components/schemas/HistoricalYear" }
+    IntervalExpression:
+      type: object
+      required: [kind, start, end]
+      properties:
+        kind: { type: string, const: interval }
+        start:
+          allOf:
+            - $ref: "#/components/schemas/HistoricalYear"
+            - type: object
+              properties:
+                circa: { type: boolean }
+        end:
+          allOf:
+            - $ref: "#/components/schemas/HistoricalYear"
+            - type: object
+              properties:
+                circa: { type: boolean }
+    PrimaryCategory:
+      type: string
+      enum: [政治, 军事, 文化, 科技, 社会, 交流]
+    EventProminence:
+      type: integer
+      enum: [1, 2, 3]

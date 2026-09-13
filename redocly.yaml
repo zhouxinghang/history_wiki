@@ -1,0 +1,6 @@
+extends:
+  - recommended
+
+rules:
+  info-license-strict: off
+  operation-4xx-response: off

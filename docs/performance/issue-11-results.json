@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-09-12T07:53:17.734Z",
+  "sourceEvents": 10000,
+  "browser": "Chrome/153.0.8010.36",
+  "viewportChecks": {
+    "desktop": {
+      "viewport": "desktop",
+      "sourceTotal": 10000,
+      "timelineVisible": true,
+      "mobileFilterVisible": false,
+      "horizontalOverflowPx": 0,
+      "eventDomNodes": 5
+    },
+    "mobile": {
+      "viewport": "mobile",
+      "sourceTotal": 10000,
+      "timelineVisible": true,
+      "mobileFilterVisible": true,
+      "horizontalOverflowPx": 0,
+      "eventDomNodes": 5
+    }
+  },
+  "domAccessibility": {
+    "clusterEventCount": 122,
+    "previewEventNodes": 12,
+    "expandedPageEventNodes": 40,
+    "nextPageAvailable": true,
+    "totalEventDomNodes": 229
+  },
+  "scenarios": {
+    "filter": {
+      "latencyMs": 33.599999994039536,
+      "durationMs": 33.599999994039536,
+      "fps": 59.52380953436874,
+      "frameIntervalP95Ms": 16.700000000000003,
+      "longTaskCount": 0,
+      "sustainedLongTaskCount": 0,
+      "longestTaskMs": 0,
+      "maxEventDomNodes": 5
+    },
+    "drag": {
+      "durationMs": 3341.0999999940395,
+      "fps": 60.15982760179539,
+      "frameIntervalP95Ms": 16.799999999999955,
+      "longTaskCount": 0,
+      "sustainedLongTaskCount": 0,
+      "longestTaskMs": 0,
+      "maxEventDomNodes": 5
+    },
+    "zoom": {
+      "durationMs": 3150.2000000029802,
+      "fps": 59.99619071799289,
+      "frameIntervalP95Ms": 16.799999999999727,
+      "longTaskCount": 0,
+      "sustainedLongTaskCount": 0,
+      "longestTaskMs": 0,
+      "maxEventDomNodes": 5
+    }
+  },
+  "thresholds": {
+    "filterLatencyMs": 100,
+    "minimumInteractionFps": 50,
+    "sustainedLongTaskMs": 100,
+    "maximumEventDomNodes": 300
+  },
+  "passed": true
+}

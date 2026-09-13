@@ -1,0 +1,45 @@
+{
+  "name": "history-wiki",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && node scripts/assert-production-bundle.mjs",
+    "build:benchmark": "tsc -b && vite build --mode benchmark",
+    "benchmark:performance": "npm run build:benchmark && node scripts/benchmark-performance.mjs",
+    "openapi:generate": "./scripts/generate-openapi.sh",
+    "openapi:check": "npm run openapi:generate && test -z \"$(git status --porcelain --untracked-files=all -- server/internal/generated/openapi/types.gen.go src/api/openapi.gen.ts)\"",
+    "openapi:lint": "redocly lint server/openapi/openapi.yaml",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@redocly/cli": "^2.52.1",
+    "@redocly/openapi-core": "^2.11.1",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "globals": "latest",
+    "jsdom": "latest",
+    "openapi-typescript": "^7.10.1",
+    "typescript": "latest",
+    "typescript-eslint": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}

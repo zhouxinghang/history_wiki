@@ -1,0 +1,7 @@
+[
+  { "name": "BCE 1 begins at coordinate zero", "era": "BCE", "year": 1, "month": 1, "day": 1, "coordinate": 0 },
+  { "name": "BCE 1 uses astronomical leap year zero", "era": "BCE", "year": 1, "month": 2, "day": 29, "coordinate": 0.16120218579234974 },
+  { "name": "CE 1 ends within its exact year", "era": "CE", "year": 1, "month": 12, "day": 31, "coordinate": 1.9972602739726026 },
+  { "name": "CE 1900 is not a leap year", "era": "CE", "year": 1900, "month": 3, "day": 1, "coordinate": 1900.1616438356164 },
+  { "name": "CE 2000 is a leap year", "era": "CE", "year": 2000, "month": 2, "day": 29, "coordinate": 2000.1612021857923 }
+]

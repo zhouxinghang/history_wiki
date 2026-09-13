@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: history_wiki
+      POSTGRES_USER: history_wiki
+      POSTGRES_PASSWORD: history_wiki
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U history_wiki -d history_wiki"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "5432:5432"
+    volumes:
+      - history-wiki-postgres:/var/lib/postgresql/data
+
+  migrate:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["/app/migrate"]
+    environment:
+      DATABASE_URL: postgres://history_wiki:history_wiki@postgres:5432/history_wiki?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      DATABASE_URL: postgres://history_wiki:history_wiki@postgres:5432/history_wiki?sslmode=disable
+      HTTP_ADDRESS: :8080
+      PUBLIC_BASE_URL: http://localhost:5173
+      SESSION_COOKIE_NAME: __Host-history_wiki_session
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "8080:8080"
+
+  adminctl:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["/app/adminctl", "create-admin"]
+    environment:
+      DATABASE_URL: postgres://history_wiki:history_wiki@postgres:5432/history_wiki?sslmode=disable
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    profiles: ["tools"]
+    stdin_open: true
+    tty: true
+
+volumes:
+  history-wiki-postgres:

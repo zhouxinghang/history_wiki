@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: history_wiki_test
+          POSTGRES_USER: history_wiki
+          POSTGRES_PASSWORD: history_wiki
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U history_wiki -d history_wiki_test"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 20
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.x"
+          cache-dependency-path: server/go.sum
+      - run: npm ci
+      - run: npm run openapi:check
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run openapi:lint
+      - run: npm run build
+      - run: docker build -f server/Dockerfile -t history-wiki:test .
+      - name: Test Go server against PostgreSQL
+        working-directory: server
+        env:
+          TEST_DATABASE_URL: postgres://history_wiki:history_wiki@127.0.0.1:5432/history_wiki_test?sslmode=disable
+        run: go test ./... -count=1

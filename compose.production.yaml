@@ -1,0 +1,90 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - history-wiki-postgres:/var/lib/postgresql/data
+
+  migrate:
+    image: ${HISTORY_WIKI_IMAGE:?set HISTORY_WIKI_IMAGE}
+    command: ["/app/migrate"]
+    environment:
+      DATABASE_URL_FILE: /run/secrets/database_url
+    secrets:
+      - database_url
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    image: ${HISTORY_WIKI_IMAGE:?set HISTORY_WIKI_IMAGE}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    environment:
+      DATABASE_URL_FILE: /run/secrets/database_url
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:?set PUBLIC_BASE_URL}
+      SESSION_COOKIE_NAME: ${SESSION_COOKIE_NAME:-__Host-history_wiki_session}
+      CSRF_COOKIE_NAME: ${CSRF_COOKIE_NAME:-__Host-history_wiki_csrf}
+      TRUSTED_PROXY_COUNT: ${TRUSTED_PROXY_COUNT:-0}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      DATABASE_MAX_CONNS: ${DATABASE_MAX_CONNS:-20}
+      DATABASE_MIN_CONNS: ${DATABASE_MIN_CONNS:-2}
+      DATABASE_MAX_CONN_LIFETIME: ${DATABASE_MAX_CONN_LIFETIME:-30m}
+      DATABASE_MAX_CONN_IDLE_TIME: ${DATABASE_MAX_CONN_IDLE_TIME:-5m}
+      SESSION_IDLE_TIMEOUT: ${SESSION_IDLE_TIMEOUT:-8h}
+      SESSION_MAX_LIFETIME: ${SESSION_MAX_LIFETIME:-168h}
+      ARGON2_MEMORY_KIB: ${ARGON2_MEMORY_KIB:-65536}
+      ARGON2_ITERATIONS: ${ARGON2_ITERATIONS:-3}
+      ARGON2_PARALLELISM: ${ARGON2_PARALLELISM:-2}
+    secrets:
+      - database_url
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/health/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8080}:8080"
+
+  adminctl:
+    image: ${HISTORY_WIKI_IMAGE:?set HISTORY_WIKI_IMAGE}
+    command: ["/app/adminctl", "create-admin"]
+    environment:
+      DATABASE_URL_FILE: /run/secrets/database_url
+      ARGON2_MEMORY_KIB: ${ARGON2_MEMORY_KIB:-65536}
+      ARGON2_ITERATIONS: ${ARGON2_ITERATIONS:-3}
+      ARGON2_PARALLELISM: ${ARGON2_PARALLELISM:-2}
+    secrets:
+      - database_url
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    profiles: ["tools"]
+    stdin_open: true
+    tty: true
+
+secrets:
+  postgres_password:
+    external: true
+  database_url:
+    external: true
+
+volumes:
+  history-wiki-postgres:
