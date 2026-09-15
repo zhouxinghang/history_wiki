@@ -1,0 +1,250 @@
+{
+  "base": "http://homelab.com:9003",
+  "generatedAt": "2026-09-15T15:30:53.015Z",
+  "regions": [
+    {
+      "key": "china",
+      "name": "中国",
+      "id": "01a0a5b1-444c-734b-831d-667e359fd79d",
+      "replayed": false
+    },
+    {
+      "key": "korean-peninsula",
+      "name": "朝鲜半岛",
+      "id": "01a0a5b1-4455-7763-91bc-c0bd775d74ae",
+      "replayed": false
+    },
+    {
+      "key": "japanese-archipelago",
+      "name": "日本列岛",
+      "id": "01a0a5b1-445d-713d-8698-745caf318b88",
+      "replayed": false
+    },
+    {
+      "key": "central-asia",
+      "name": "中亚",
+      "id": "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+      "replayed": false
+    },
+    {
+      "key": "eurasian-steppe",
+      "name": "欧亚草原",
+      "id": "01a0a5b1-446d-7ef8-b27c-e52568809084",
+      "replayed": false
+    },
+    {
+      "key": "pontic-caspian-steppe",
+      "name": "黑海—里海草原",
+      "id": "01a0a5b1-4478-72cd-9994-e27e948b0248",
+      "replayed": false
+    },
+    {
+      "key": "south-asia",
+      "name": "南亚",
+      "id": "01a0a5b1-4480-7bc1-8e79-75740c3137b3",
+      "replayed": false
+    },
+    {
+      "key": "west-asia",
+      "name": "西亚",
+      "id": "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+      "replayed": false
+    },
+    {
+      "key": "mesopotamia",
+      "name": "两河流域",
+      "id": "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+      "replayed": false
+    },
+    {
+      "key": "levant",
+      "name": "黎凡特",
+      "id": "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+      "replayed": false
+    },
+    {
+      "key": "anatolia",
+      "name": "安纳托利亚",
+      "id": "01a0a5b1-44a0-73fd-85b2-d29247a4bb7e",
+      "replayed": false
+    },
+    {
+      "key": "persia",
+      "name": "波斯",
+      "id": "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc",
+      "replayed": false
+    },
+    {
+      "key": "ancient-egypt",
+      "name": "古埃及",
+      "id": "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+      "replayed": false
+    },
+    {
+      "key": "nubia",
+      "name": "努比亚",
+      "id": "01a0a5b1-44b7-7533-8b6c-1467e4367354",
+      "replayed": false
+    },
+    {
+      "key": "north-africa",
+      "name": "北非",
+      "id": "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+      "replayed": false
+    },
+    {
+      "key": "sahara",
+      "name": "撒哈拉",
+      "id": "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44",
+      "replayed": false
+    },
+    {
+      "key": "west-africa",
+      "name": "西非",
+      "id": "01a0a5b1-44cd-7553-bf47-de6830901c19",
+      "replayed": false
+    },
+    {
+      "key": "horn-of-africa",
+      "name": "非洲之角",
+      "id": "01a0a5b1-44d4-7c96-9999-bc23576dae70",
+      "replayed": false
+    },
+    {
+      "key": "aegean",
+      "name": "爱琴海",
+      "id": "01a0a5b1-44df-7109-8127-510d623de8c9",
+      "replayed": false
+    },
+    {
+      "key": "ancient-greece",
+      "name": "古希腊",
+      "id": "01a0a5b1-44f2-730c-aa02-84d379387688",
+      "replayed": false
+    },
+    {
+      "key": "ancient-rome",
+      "name": "古罗马",
+      "id": "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+      "replayed": false
+    },
+    {
+      "key": "italy",
+      "name": "意大利",
+      "id": "01a0a5b1-4506-7c58-8af8-afb8d6cbe76b",
+      "replayed": false
+    },
+    {
+      "key": "mediterranean",
+      "name": "地中海",
+      "id": "01a0a5b1-4516-7878-b354-64265599b501",
+      "replayed": false
+    },
+    {
+      "key": "europe",
+      "name": "欧洲",
+      "id": "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2",
+      "replayed": false
+    },
+    {
+      "key": "island-southeast-asia",
+      "name": "岛屿东南亚",
+      "id": "01a0a5b1-4528-76c9-9613-ad0872713bb8",
+      "replayed": false
+    },
+    {
+      "key": "oceania",
+      "name": "大洋洲",
+      "id": "01a0a5b1-452f-75f2-a1c3-0dc672d0fda3",
+      "replayed": false
+    },
+    {
+      "key": "north-america",
+      "name": "北美洲",
+      "id": "01a0a5b1-4538-7f3d-a7a6-21c58689ec17",
+      "replayed": false
+    },
+    {
+      "key": "mesoamerica",
+      "name": "中部美洲",
+      "id": "01a0a5b1-4548-757e-876b-df2cac4226aa",
+      "replayed": false
+    },
+    {
+      "key": "south-america",
+      "name": "南美洲",
+      "id": "01a0a5b1-4555-71b0-bffe-7466d3f05dc7",
+      "replayed": false
+    },
+    {
+      "key": "andes",
+      "name": "安第斯地区",
+      "id": "01a0a5b1-4566-70e4-9777-3e4bf92fa779",
+      "replayed": false
+    }
+  ],
+  "byName": {
+    "中国": "01a0a5b1-444c-734b-831d-667e359fd79d",
+    "朝鲜半岛": "01a0a5b1-4455-7763-91bc-c0bd775d74ae",
+    "日本列岛": "01a0a5b1-445d-713d-8698-745caf318b88",
+    "中亚": "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+    "欧亚草原": "01a0a5b1-446d-7ef8-b27c-e52568809084",
+    "黑海—里海草原": "01a0a5b1-4478-72cd-9994-e27e948b0248",
+    "南亚": "01a0a5b1-4480-7bc1-8e79-75740c3137b3",
+    "西亚": "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+    "两河流域": "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+    "黎凡特": "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+    "安纳托利亚": "01a0a5b1-44a0-73fd-85b2-d29247a4bb7e",
+    "波斯": "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc",
+    "古埃及": "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+    "努比亚": "01a0a5b1-44b7-7533-8b6c-1467e4367354",
+    "北非": "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+    "撒哈拉": "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44",
+    "西非": "01a0a5b1-44cd-7553-bf47-de6830901c19",
+    "非洲之角": "01a0a5b1-44d4-7c96-9999-bc23576dae70",
+    "爱琴海": "01a0a5b1-44df-7109-8127-510d623de8c9",
+    "古希腊": "01a0a5b1-44f2-730c-aa02-84d379387688",
+    "古罗马": "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+    "意大利": "01a0a5b1-4506-7c58-8af8-afb8d6cbe76b",
+    "地中海": "01a0a5b1-4516-7878-b354-64265599b501",
+    "欧洲": "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2",
+    "岛屿东南亚": "01a0a5b1-4528-76c9-9613-ad0872713bb8",
+    "大洋洲": "01a0a5b1-452f-75f2-a1c3-0dc672d0fda3",
+    "北美洲": "01a0a5b1-4538-7f3d-a7a6-21c58689ec17",
+    "中部美洲": "01a0a5b1-4548-757e-876b-df2cac4226aa",
+    "南美洲": "01a0a5b1-4555-71b0-bffe-7466d3f05dc7",
+    "安第斯地区": "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+  },
+  "byKey": {
+    "china": "01a0a5b1-444c-734b-831d-667e359fd79d",
+    "korean-peninsula": "01a0a5b1-4455-7763-91bc-c0bd775d74ae",
+    "japanese-archipelago": "01a0a5b1-445d-713d-8698-745caf318b88",
+    "central-asia": "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+    "eurasian-steppe": "01a0a5b1-446d-7ef8-b27c-e52568809084",
+    "pontic-caspian-steppe": "01a0a5b1-4478-72cd-9994-e27e948b0248",
+    "south-asia": "01a0a5b1-4480-7bc1-8e79-75740c3137b3",
+    "west-asia": "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+    "mesopotamia": "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+    "levant": "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+    "anatolia": "01a0a5b1-44a0-73fd-85b2-d29247a4bb7e",
+    "persia": "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc",
+    "ancient-egypt": "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+    "nubia": "01a0a5b1-44b7-7533-8b6c-1467e4367354",
+    "north-africa": "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+    "sahara": "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44",
+    "west-africa": "01a0a5b1-44cd-7553-bf47-de6830901c19",
+    "horn-of-africa": "01a0a5b1-44d4-7c96-9999-bc23576dae70",
+    "aegean": "01a0a5b1-44df-7109-8127-510d623de8c9",
+    "ancient-greece": "01a0a5b1-44f2-730c-aa02-84d379387688",
+    "ancient-rome": "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+    "italy": "01a0a5b1-4506-7c58-8af8-afb8d6cbe76b",
+    "mediterranean": "01a0a5b1-4516-7878-b354-64265599b501",
+    "europe": "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2",
+    "island-southeast-asia": "01a0a5b1-4528-76c9-9613-ad0872713bb8",
+    "oceania": "01a0a5b1-452f-75f2-a1c3-0dc672d0fda3",
+    "north-america": "01a0a5b1-4538-7f3d-a7a6-21c58689ec17",
+    "mesoamerica": "01a0a5b1-4548-757e-876b-df2cac4226aa",
+    "south-america": "01a0a5b1-4555-71b0-bffe-7466d3f05dc7",
+    "andes": "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+  }
+}

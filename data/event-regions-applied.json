@@ -1,0 +1,509 @@
+{
+  "base": "http://homelab.com:9003",
+  "generatedAt": "2026-09-15T15:32:24.281Z",
+  "summary": {
+    "already_set": 67
+  },
+  "results": [
+    {
+      "slug": "djenne-jeno-founded",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ]
+    },
+    {
+      "slug": "dujiangyan-irrigation-system",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "ashoka-rule-and-edicts",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "first-punic-war",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ]
+    },
+    {
+      "slug": "maurya-empire-founded",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "alexander-conquests",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc"
+      ]
+    },
+    {
+      "slug": "roman-conquest-of-italy",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+        "01a0a5b1-4506-7c58-8af8-afb8d6cbe76b"
+      ]
+    },
+    {
+      "slug": "shang-yang-reforms",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "panini-grammar",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "greco-persian-wars",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc",
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ]
+    },
+    {
+      "slug": "nok-ironworking",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ]
+    },
+    {
+      "slug": "monte-alban-rises",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ]
+    },
+    {
+      "slug": "jain-community-consolidates",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "garamantes-state-forms",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44"
+      ]
+    },
+    {
+      "slug": "early-zapotec-writing",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ]
+    },
+    {
+      "slug": "early-buddhist-community",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "chinese-cast-iron-expands",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "athenian-democracy-reforms",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ]
+    },
+    {
+      "slug": "achaemenid-empire",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc"
+      ]
+    },
+    {
+      "slug": "confucian-teaching",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "babylonian-exile",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c"
+      ]
+    },
+    {
+      "slug": "mahajanapadas-and-second-urbanization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "classical-greek-philosophy",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ]
+    },
+    {
+      "slug": "early-upanishads",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "kushite-rule-of-egypt",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ]
+    },
+    {
+      "slug": "homeric-epics",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ]
+    },
+    {
+      "slug": "greek-colonization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ]
+    },
+    {
+      "slug": "spring-and-autumn-order",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "scythian-steppe-culture",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-446d-7ef8-b27c-e52568809084"
+      ]
+    },
+    {
+      "slug": "kingdom-of-dmt",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44d4-7c96-9999-bc23576dae70"
+      ]
+    },
+    {
+      "slug": "carthage-rises",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ]
+    },
+    {
+      "slug": "yayoi-transition",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-445d-713d-8698-745caf318b88"
+      ]
+    },
+    {
+      "slug": "neo-assyrian-empire",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10"
+      ]
+    },
+    {
+      "slug": "western-zhou-founded",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "phoenician-alphabet",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ]
+    },
+    {
+      "slug": "olmec-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ]
+    },
+    {
+      "slug": "late-bronze-age-collapse",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ]
+    },
+    {
+      "slug": "oracle-bone-writing",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "vedic-tradition",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "mumun-agrarian-society",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4455-7763-91bc-c0bd775d74ae"
+      ]
+    },
+    {
+      "slug": "chavin-de-huantar",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+      ]
+    },
+    {
+      "slug": "egyptian-new-kingdom",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ]
+    },
+    {
+      "slug": "shang-dynasty",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "mycenaean-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ]
+    },
+    {
+      "slug": "lapita-expansion",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-452f-75f2-a1c3-0dc672d0fda3"
+      ]
+    },
+    {
+      "slug": "dhar-tichitt-settlements",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44",
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ]
+    },
+    {
+      "slug": "hittite-empire",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a0-73fd-85b2-d29247a4bb7e"
+      ]
+    },
+    {
+      "slug": "poverty-point-monumental-center",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4538-7f3d-a7a6-21c58689ec17"
+      ]
+    },
+    {
+      "slug": "code-of-hammurabi",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ]
+    },
+    {
+      "slug": "minoan-palatial-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2"
+      ]
+    },
+    {
+      "slug": "erlitou-urban-culture",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "sintashta-chariot-technology",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-446d-7ef8-b27c-e52568809084"
+      ]
+    },
+    {
+      "slug": "akkadian-empire",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ]
+    },
+    {
+      "slug": "kingdom-of-kerma",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ]
+    },
+    {
+      "slug": "austronesian-expansion-to-philippines",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4528-76c9-9613-ad0872713bb8"
+      ]
+    },
+    {
+      "slug": "great-pyramid-of-giza",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b"
+      ]
+    },
+    {
+      "slug": "indus-urban-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ]
+    },
+    {
+      "slug": "caral-supe-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+      ]
+    },
+    {
+      "slug": "unification-of-egypt",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b"
+      ]
+    },
+    {
+      "slug": "egyptian-hieroglyphic-writing",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10"
+      ]
+    },
+    {
+      "slug": "cuneiform-writing-emerges",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ]
+    },
+    {
+      "slug": "yamnaya-steppe-expansion",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-446d-7ef8-b27c-e52568809084",
+        "01a0a5b1-4478-72cd-9994-e27e948b0248"
+      ]
+    },
+    {
+      "slug": "liangzhu-civilization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ]
+    },
+    {
+      "slug": "wheeled-transport-emerges",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2"
+      ]
+    },
+    {
+      "slug": "watson-brake-earthworks",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4538-7f3d-a7a6-21c58689ec17"
+      ]
+    },
+    {
+      "slug": "valdivia-settlement-pottery",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4555-71b0-bffe-7466d3f05dc7"
+      ]
+    },
+    {
+      "slug": "uruk-urbanization",
+      "status": "already_set",
+      "regions": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ]
+    }
+  ]
+}

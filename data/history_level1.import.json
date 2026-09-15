@@ -1,0 +1,1905 @@
+{
+  "events": [
+    {
+      "id": "01a09810-4c00-7782-97e9-4853253a6790",
+      "slug": "uruk-urbanization",
+      "title": "乌鲁克城市化与早期国家形成",
+      "summary": "约公元前四千纪后期，乌鲁克发展为早期大型城市与区域中心。",
+      "narrative": "神庙、手工业、仓储和行政活动在乌鲁克高度集中，显示出人口、劳动与资源组织方式的重大变化。这一城市化进程成为两河流域早期国家形成的重要基础。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 3100,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c01-7671-8de6-35c86c6dd269",
+      "slug": "valdivia-settlement-pottery",
+      "title": "瓦尔迪维亚定居与陶器传统发展",
+      "summary": "约公元前 3500 至前 1500 年，厄瓜多尔沿海出现稳定村落和延续较久的瓦尔迪维亚陶器传统。",
+      "narrative": "农业、渔业和定居生活共同支撑沿海社区，陶器风格反映区域交流与社会实践。它是南美太平洋沿岸早期村落社会的重要时间锚点。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4555-71b0-bffe-7466d3f05dc7"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c02-792d-ae06-77b0ef837a1f",
+      "slug": "watson-brake-earthworks",
+      "title": "沃森布雷克土丘群营建",
+      "summary": "约公元前 3500 至前 2800 年，北美路易斯安那地区的狩猎采集群体持续营建大型土丘群。",
+      "narrative": "多座土丘和连接土脊显示季节性群体能够长期协调公共工程。其年代把北美纪念性建筑与复杂协作的历史大幅提前。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 2800,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4538-7f3d-a7a6-21c58689ec17"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c03-7ee6-a652-d220ac4f2f7b",
+      "slug": "wheeled-transport-emerges",
+      "title": "轮式运输工具出现",
+      "summary": "约公元前 3500 年，欧亚多地开始出现轮与轮式车辆的早期考古证据。",
+      "narrative": "轮式运输改变了陆上载运、农业生产和人员移动的能力，并在此后逐渐与畜力结合。不同地区的早期证据年代接近，具体传播和独立发展关系仍在研究中。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 3500
+        }
+      },
+      "primaryCategory": "科技",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c04-7da9-b7e4-b98e879bf527",
+      "slug": "liangzhu-civilization",
+      "title": "良渚早期区域国家形成",
+      "summary": "约公元前 3300 至前 2300 年，长江下游出现以良渚古城、水利系统和玉礼器为代表的复杂社会。",
+      "narrative": "良渚遗址群显示出大型公共工程、社会分层和跨聚落资源组织能力。它为理解中国早期区域文明与国家形成提供了重要考古证据。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3300,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 2300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c05-7846-8f88-471e30d5e3ce",
+      "slug": "yamnaya-steppe-expansion",
+      "title": "亚姆纳亚相关草原人口大规模扩张",
+      "summary": "约公元前 3300 至前 2600 年，黑海—里海草原相关人群向欧洲多地扩展。",
+      "narrative": "古 DNA 研究显示，这次人口移动显著改变了欧洲多地的人口构成，并伴随新的牧业和物质文化。语言传播的具体关系仍属研究问题，因此不在标题中作确定判断。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3300,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 2600,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-446d-7ef8-b27c-e52568809084",
+        "01a0a5b1-4478-72cd-9994-e27e948b0248"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c06-79d8-b5da-b7eec82ea201",
+      "slug": "cuneiform-writing-emerges",
+      "title": "楔形文字的早期形态形成",
+      "summary": "约公元前 3200 年，南部两河流域的行政符号发展为早期楔形文字。",
+      "narrative": "早期泥板上的符号由计数和图像记录逐渐发展为能够表达语言的书写体系。文字使行政、法律、文学和知识得以跨越个人记忆长期保存。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 3200
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c07-7fea-ba69-811c2a3a991f",
+      "slug": "egyptian-hieroglyphic-writing",
+      "title": "埃及象形文字形成",
+      "summary": "约公元前 3200 年，尼罗河流域出现成熟度不断提高的象形文字记录。",
+      "narrative": "象形文字被用于王权、祭祀、行政和纪念性表达，并发展出延续数千年的书写传统。它与埃及国家整合相互促进，但其早期演变仍主要依据考古材料重建。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 3200
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c08-7c51-8dd5-f70778b0c97c",
+      "slug": "unification-of-egypt",
+      "title": "古埃及完成政治统一",
+      "summary": "约公元前 3100 年，上下埃及被整合进由法老统治的统一国家。",
+      "narrative": "统一王权以尼罗河谷为基础建立跨地区行政、贡赋和宗教秩序。此后形成的王朝国家框架长期塑造了古埃及政治与文化。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 3100
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c09-7c40-a468-6fdc7c6f59d1",
+      "slug": "caral-supe-civilization",
+      "title": "卡拉尔—苏佩文明兴起",
+      "summary": "约公元前 3000 至前 1800 年，秘鲁中北海岸河谷出现大型聚落和纪念性建筑。",
+      "narrative": "卡拉尔及相关遗址体现了安第斯地区早期复杂社会对农业、渔业、交换和公共工程的组织。其发展没有依赖已知的陶器传统，展示了城市化道路的多样性。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 3000,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1800,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0a-7e7a-8eee-53575778c533",
+      "slug": "indus-urban-civilization",
+      "title": "印度河文明进入成熟城市阶段",
+      "summary": "约公元前 2600 至前 1900 年，哈拉帕、摩亨佐-达罗等城市构成广泛的印度河城市网络。",
+      "narrative": "规划街区、排水系统、标准化度量和远距离交换体现了高度组织化的城市社会。其文字尚未被可靠释读，政治结构也仍是研究问题。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 2600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1900,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0b-7714-976e-2ac3036d4e0d",
+      "slug": "great-pyramid-of-giza",
+      "title": "吉萨大金字塔建成",
+      "summary": "约公元前 2560 年，胡夫金字塔在吉萨高原基本建成。",
+      "narrative": "这项工程集中体现了古埃及古王国调动物资、劳动力和技术知识的能力。其规模和保存状况使之成为古代国家组织与石造工程的代表性遗存。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 2560
+        }
+      },
+      "primaryCategory": "科技",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0c-7eae-8173-66cd49bf5451",
+      "slug": "austronesian-expansion-to-philippines",
+      "title": "南岛语族新石器人群进入菲律宾与岛屿东南亚",
+      "summary": "约公元前 2500 至前 1500 年，南岛语族新石器人群向菲律宾及岛屿东南亚扩展。",
+      "narrative": "航海、农业、制陶和语言传统随人口移动进入岛屿东南亚，并成为后来更广泛太平洋迁徙的重要起点。具体路线和年代因地区而异。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 2500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4528-76c9-9613-ad0872713bb8"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0d-7b7b-8639-b1a3f492006d",
+      "slug": "kingdom-of-kerma",
+      "title": "克尔玛王国兴起",
+      "summary": "约公元前 2500 至前 1500 年，努比亚的克尔玛发展为控制尼罗河上游贸易与农业资源的重要国家。",
+      "narrative": "克尔玛拥有大型城市中心、独特建筑与复杂墓葬，并长期同埃及竞争和交流。它证明努比亚地区形成了独立而持续的国家传统。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 2500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0e-7194-af7a-3a42b9494644",
+      "slug": "akkadian-empire",
+      "title": "阿卡德帝国建立跨城邦统治",
+      "summary": "约公元前 2334 至前 2154 年，阿卡德王朝将两河流域多个城邦纳入统一的军事与行政体系。",
+      "narrative": "萨尔贡及其继承者建立了超越单一城市的广域统治，并通过驻军、官员和王权意识形态维系统治。阿卡德成为后世西亚帝国政治的重要参照。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 2334,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 2154,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c0f-7a6a-817a-02418067ed81",
+      "slug": "sintashta-chariot-technology",
+      "title": "辛塔什塔战车技术形成",
+      "summary": "约公元前 2000 至前 1800 年，欧亚草原南部出现早期轻型辐条轮战车及相关马具。",
+      "narrative": "战车把马匹、轻型车体和武器结合，显著改变了精英战争和远距离机动。此后相关技术迅速传播到西亚、南亚和东亚。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 2000,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1800,
+          "circa": true
+        }
+      },
+      "primaryCategory": "科技",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-446d-7ef8-b27c-e52568809084"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c10-719d-bd32-eb718432208c",
+      "slug": "erlitou-urban-culture",
+      "title": "二里头大型政治中心形成",
+      "summary": "约公元前 1900 至前 1500 年，中原二里头遗址发展出宫殿区、道路网和青铜器生产体系。",
+      "narrative": "二里头体现了跨聚落资源集中、等级分化和礼仪权力的发展。其政治名称仍有争议，因此不将考古文化直接等同于传世文献中的王朝。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1900,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c11-7adc-a16d-634a8f738886",
+      "slug": "minoan-palatial-civilization",
+      "title": "克里特宫殿文明兴盛",
+      "summary": "约公元前 1900 至前 1450 年，克里特岛形成以克诺索斯等宫殿中心为核心的复杂社会。",
+      "narrative": "宫殿组织生产、储藏、仪式和跨海交换，并使用线形文字记录行政活动。克里特网络深刻参与了青铜时代东地中海的人员与物资流动。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1900,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1450,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-4520-75e3-a3f6-bd3801c6b5b2"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c12-74aa-905f-8480736654e0",
+      "slug": "code-of-hammurabi",
+      "title": "《汉谟拉比法典》形成",
+      "summary": "约公元前 18 世纪中叶，古巴比伦王汉谟拉比颁布并刻写一组法律条文。",
+      "narrative": "法典涉及财产、债务、家庭、身份和司法程序，并以维护公正的王权形象加以说明。石碑使古巴比伦社会秩序留下了系统的书面材料。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 1755
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c13-7c41-8f5e-282ab7187852",
+      "slug": "poverty-point-monumental-center",
+      "title": "贫困点土方工程与交换中心兴盛",
+      "summary": "约公元前 1700 至前 1100 年，北美密西西比河下游地区建成大型土方工程和聚集中心。",
+      "narrative": "遗址由同心土脊、土丘和广域交换物资构成，说明狩猎采集社会也能组织大规模公共建设。它成为北美早期区域网络的重要锚点。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1700,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1100,
+          "circa": true
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4538-7f3d-a7a6-21c58689ec17"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c14-74a1-80fd-7fb05dd0592e",
+      "slug": "hittite-empire",
+      "title": "赫梯国家发展为西亚强权",
+      "summary": "约公元前 1650 至前 1200 年，安纳托利亚的赫梯王国建立并扩展为帝国。",
+      "narrative": "赫梯以哈图沙为中心控制安纳托利亚及叙利亚部分地区，参与青铜时代列强外交。其档案保存了法律、条约和多语种文化交流。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1650,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1200,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a0-73fd-85b2-d29247a4bb7e"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c15-7d5c-a33a-4889573502dd",
+      "slug": "dhar-tichitt-settlements",
+      "title": "达尔·蒂希特复杂聚落体系形成",
+      "summary": "约公元前 1600 至前 300 年，西非毛里塔尼亚地区形成石砌聚落、谷物生产和区域分层体系。",
+      "narrative": "达尔·蒂希特传统显示撒哈拉南缘居民通过农业、畜牧和防御性聚落组织复杂社会。它为西非早期国家化和区域交换提供了重要考古锚点。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44",
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c16-7f58-a6b2-42ad51e91120",
+      "slug": "lapita-expansion",
+      "title": "拉皮塔文化向远大洋洲扩展",
+      "summary": "约公元前 1600 至前 500 年，携带拉皮塔陶器传统的航海群体向美拉尼西亚和西波利尼西亚扩展。",
+      "narrative": "他们跨越大片海域建立新聚落，并传播农业、航海和语言传统。这一迁徙构成波利尼西亚社会形成的重要前史。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-452f-75f2-a1c3-0dc672d0fda3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c17-71fb-a7d9-4b536125baa7",
+      "slug": "mycenaean-civilization",
+      "title": "迈锡尼宫殿文明兴盛",
+      "summary": "约公元前 1600 至前 1100 年，希腊大陆形成由多个宫殿中心构成的迈锡尼文明。",
+      "narrative": "线形文字 B 档案记录了宫殿经济和行政，堡垒与墓葬体现精英军事权力。迈锡尼世界也是后世希腊史诗传统的重要历史背景。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1100,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c18-7593-a98f-1795dbcc5d49",
+      "slug": "shang-dynasty",
+      "title": "商王朝时期",
+      "summary": "约公元前 1600 至前 1046 年，中原形成以青铜礼器、都邑和王室祭祀为核心的商王朝。",
+      "narrative": "商代晚期的甲骨卜辞、青铜铭文与考古遗存可以相互印证。王权、宗族、战争和礼仪构成其政治秩序的重要方面。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1046,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c19-71bd-bdc2-14d4cd0163a0",
+      "slug": "egyptian-new-kingdom",
+      "title": "古埃及新王国建立帝国秩序",
+      "summary": "约公元前 1550 至前 1070 年，埃及重新统一并将影响扩展至努比亚和西亚。",
+      "narrative": "新王国依靠常备军事力量、神庙经济和跨地区贡赋维系统治。埃及由此深度参与东地中海和西亚的列强外交体系。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1550,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1070,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1a-7fd2-a607-f150c738019b",
+      "slug": "chavin-de-huantar",
+      "title": "查文宗教与文化汇聚中心兴盛",
+      "summary": "约公元前 1500 至前 300 年，查文德万塔尔发展为跨安第斯的宗教、艺术与交流中心。",
+      "narrative": "查文德万塔尔长期吸引来自不同生态区域的人群，石雕、地下建筑和宗教图像形成广泛共享的象征传统。它成为安第斯早期跨区域文化整合的重要节点。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4566-70e4-9777-3e4bf92fa779"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1b-7cc9-9aa1-f69c533f0106",
+      "slug": "mumun-agrarian-society",
+      "title": "朝鲜半岛无文土器农业社会发展",
+      "summary": "约公元前 1500 至前 300 年，朝鲜半岛出现以农业聚落、支石墓和社会分化为特征的无文土器时代。",
+      "narrative": "稻作与旱作农业扩展，聚落规模和墓葬差异显示权力逐渐集中。这一阶段为半岛后续的早期国家形成奠定社会基础。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4455-7763-91bc-c0bd775d74ae"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1c-7f4e-84a9-45570530982c",
+      "slug": "vedic-tradition",
+      "title": "吠陀传统形成并传播",
+      "summary": "约公元前 1500 至前 500 年，印度次大陆北部形成以吠陀赞歌、祭祀和口传知识为核心的文化传统。",
+      "narrative": "《梨俱吠陀》等文本在长期口传中形成，相关群体由西北逐渐进入恒河流域。吠陀传统深刻影响了南亚宗教、语言和社会观念。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 500,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1d-7348-afb0-86df59f11fce",
+      "slug": "oracle-bone-writing",
+      "title": "甲骨文形成系统记录",
+      "summary": "约公元前 1250 年起，商王室占卜记录大量刻写在龟甲和兽骨上。",
+      "narrative": "甲骨文记录祭祀、战争、农业、气象和王室事务，是目前所见成熟汉字体系的重要早期材料。它把商代政治活动与后世延续的汉字传统连接起来。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 1250
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1e-7f06-8b26-96e186147d40",
+      "slug": "late-bronze-age-collapse",
+      "title": "东地中海青铜时代体系崩解",
+      "summary": "约公元前 1200 至前 1150 年，东地中海和西亚多个宫殿国家与贸易网络相继衰落。",
+      "narrative": "迈锡尼宫殿、赫梯帝国和若干沿海城市受到战争、迁徙、内部危机与环境压力的共同冲击。原因并非单一，但区域政治结构由此发生根本变化。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1200,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 1150,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c1f-7398-bef4-6a27898dfd83",
+      "slug": "olmec-civilization",
+      "title": "奥尔梅克文明时期",
+      "summary": "约公元前 1400 至前 400 年，墨西哥湾沿岸出现圣洛伦索和拉文塔等大型中心。",
+      "narrative": "纪念性建筑、巨石头像、仪式艺术和远距离交换显示出复杂的政治与宗教组织。奥尔梅克传统对后续中部美洲文化产生了广泛影响。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 1200,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 400,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c20-7f6c-b40c-6ad78603fce9",
+      "slug": "phoenician-alphabet",
+      "title": "腓尼基字母体系定型",
+      "summary": "约公元前 1050 年，腓尼基人使用的辅音字母体系趋于稳定。",
+      "narrative": "数量有限的字母降低了书写体系的学习和复制成本，并随海上网络广泛传播。希腊字母及许多后续字母传统都在此基础上发展。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 1050
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c21-72be-9ebc-f1221413ebc2",
+      "slug": "western-zhou-founded",
+      "title": "周灭商与天命政治框架形成",
+      "summary": "公元前 1046 年，周在牧野之战后取代商王朝。",
+      "narrative": "西周统治者通过分封、宗族关系和礼制重建跨区域政治秩序，并以天命解释王朝更替。这些观念长期影响中国政治文化。",
+      "time": {
+        "kind": "year",
+        "year": {
+          "era": "BCE",
+          "year": 1046
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c22-7c4d-bcee-9ef6be0a45b6",
+      "slug": "neo-assyrian-empire",
+      "title": "新亚述帝国建立广域统治",
+      "summary": "公元前 911 至前 609 年，新亚述逐步控制两河流域、黎凡特和埃及部分地区。",
+      "narrative": "帝国依靠常备军、道路、行省、人口迁移和贡赋体系管理广阔领土。其行政与军事模式深刻影响了后继西亚帝国。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 911
+        },
+        "end": {
+          "era": "BCE",
+          "year": 609
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c",
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c23-7b7e-b52e-8bacb515896a",
+      "slug": "yayoi-transition",
+      "title": "日本列岛进入弥生农业社会",
+      "summary": "约公元前 900 至前 300 年，水稻农业、金属器和新的聚落方式从九州逐渐向日本列岛扩展。",
+      "narrative": "农业剩余促进人口增长、社会分化和区域冲突，并改变了绳文时代以来的生计结构。各地区转变时间并不一致。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 900,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-445d-713d-8698-745caf318b88"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c24-7a5e-87b7-c93872af6ebf",
+      "slug": "carthage-rises",
+      "title": "迦太基建立并成为地中海贸易中心",
+      "summary": "约公元前 800 年，北非海岸的迦太基作为腓尼基聚落建立，并逐渐成为西地中海中心。",
+      "narrative": "迦太基建立连接北非、伊比利亚、西西里和撒丁的网络，并控制重要港口和资源。它成为罗马扩张前西地中海最主要的强权之一。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 800
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c25-79c4-aa3c-ccb227e6bae7",
+      "slug": "kingdom-of-dmt",
+      "title": "达阿马特王国兴起",
+      "summary": "约公元前 800 至前 400 年，今厄立特里亚和埃塞俄比亚北部高地形成达阿马特等早期国家中心。",
+      "narrative": "碑铭、神庙、农业设施和红海联系显示当地统治者组织了区域资源，并与南阿拉伯保持交流。它是非洲之角早期国家史的重要阶段。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 800,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 400,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44d4-7c96-9999-bc23576dae70"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c26-7d34-ba33-3e788e9453ae",
+      "slug": "scythian-steppe-culture",
+      "title": "斯基泰草原体系形成",
+      "summary": "约公元前 800 至前 300 年，欧亚草原形成由多个斯基泰相关群体连接的骑马游牧与交换体系。",
+      "narrative": "骑马游牧群体通过迁徙、战争与贸易连接黑海北岸、中亚和农耕帝国边疆，并发展出具有共同特征的动物纹艺术。斯基泰并非单一统一国家，而是多个相关群体的统称。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 800,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-446d-7ef8-b27c-e52568809084"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c27-7bd5-8dea-979197e10189",
+      "slug": "spring-and-autumn-order",
+      "title": "春秋时期诸侯秩序形成",
+      "summary": "公元前 770 至前 476 年，周王室东迁后，诸侯国在会盟、战争和外交中重组政治秩序。",
+      "narrative": "周天子的实际权威下降，区域强国和卿大夫政治上升。长期竞争推动制度改革、人口流动与思想变化，并为战国格局奠定基础。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 770
+        },
+        "end": {
+          "era": "BCE",
+          "year": 476
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c28-71fe-a564-477341ec3031",
+      "slug": "greek-colonization",
+      "title": "希腊殖民扩张",
+      "summary": "约公元前 750 至前 550 年，希腊城邦在地中海和黑海沿岸建立大量新聚落。",
+      "narrative": "移民与贸易连接谷物、金属和手工业市场，也加速了文字、艺术和政治制度交流。城邦共同体在这一过程中成为希腊政治生活的基本单位。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 750,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 550,
+          "circa": true
+        }
+      },
+      "primaryCategory": "交流",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c29-70e6-91cb-b02abe374b74",
+      "slug": "homeric-epics",
+      "title": "《伊利亚特》《奥德赛》口述传统定型",
+      "summary": "约公元前 750 至前 700 年，《伊利亚特》和《奥德赛》在长期口传传统基础上定型。",
+      "narrative": "史诗以特洛伊战争传说为背景，塑造了希腊人关于英雄、荣誉、神与共同过去的想象。它们成为欧洲文学与教育传统的长期源头。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 750,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 650,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2a-718e-a75f-2104dbc56945",
+      "slug": "kushite-rule-of-egypt",
+      "title": "库施征服并统治埃及",
+      "summary": "约公元前 728 至前 656 年，来自努比亚的库施统治者建立并维持埃及第二十五王朝。",
+      "narrative": "库施君主重新统一埃及，并通过神庙建设和传统王权形式强化合法性。其统治把尼罗河上下游政治史更紧密地连接起来。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 728,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 656
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44af-76cc-b1c0-bd63aeb22b10",
+        "01a0a5b1-44b7-7533-8b6c-1467e4367354"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2b-77ac-b0aa-368e77ad4795",
+      "slug": "early-upanishads",
+      "title": "早期《奥义书》思想形成",
+      "summary": "约公元前 700 至前 400 年，南亚出现讨论自我、梵、轮回和解脱的早期《奥义书》文本。",
+      "narrative": "这些思想在继承吠陀传统的同时重新解释祭祀和知识，并影响印度教、佛教和耆那教的哲学讨论。文本形成经历长期口传和编纂。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 700,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 400,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2c-792c-9f9f-ed5cf97800e8",
+      "slug": "classical-greek-philosophy",
+      "title": "古典希腊哲学体系形成",
+      "summary": "约公元前 600 至前 322 年，希腊思想家逐步形成系统讨论自然、知识、伦理和政治的哲学传统。",
+      "narrative": "从早期自然哲学家到苏格拉底、柏拉图和亚里士多德，希腊思想家系统讨论自然、知识、伦理、逻辑和政治。学派、著述与论辩使这些方法成为地中海世界及后世多种思想传统的重要资源。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 322
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2d-754d-9268-4bbfe982238f",
+      "slug": "mahajanapadas-and-second-urbanization",
+      "title": "恒河流域第二次城市化",
+      "summary": "约公元前 600 至前 300 年，南亚北部出现城市复兴、货币交换和多个大型国家。",
+      "narrative": "摩揭陀等列国在农业扩张、贸易和军事竞争中壮大，城市成为政治与思想活动中心。这一环境孕育了佛教、耆那教及后来的孔雀帝国。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 600,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2e-7344-943a-00f60d524d1d",
+      "slug": "babylonian-exile",
+      "title": "巴比伦之囚重塑犹太共同体",
+      "summary": "公元前 586 至前 538 年，耶路撒冷被新巴比伦征服后，部分犹大居民被迁往巴比伦。",
+      "narrative": "圣殿毁灭和流亡迫使共同体重新组织宗教生活、身份与文本传统。波斯征服巴比伦后部分人返回，但离散经验持续影响犹太教的发展。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 586
+        },
+        "end": {
+          "era": "BCE",
+          "year": 539
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4491-773d-ad03-72f4bdb8d818",
+        "01a0a5b1-4499-7dc7-beb6-d72b5bf7651c"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c2f-78d6-9e00-9dee5f0831a8",
+      "slug": "confucian-teaching",
+      "title": "孔子讲学与儒家传统奠基",
+      "summary": "约公元前 500 年，孔子及其弟子的讲学活动推动礼、仁和政治伦理的新阐释。",
+      "narrative": "孔子把个人修养、社会关系和公共秩序联系起来，其言行由弟子及后学持续整理。儒家后来成为东亚思想与教育传统的重要来源。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 551,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 479,
+          "circa": true
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c30-7ea3-b134-d41a8749650c",
+      "slug": "achaemenid-empire",
+      "title": "阿契美尼德帝国建立跨洲统治",
+      "summary": "公元前 550 至前 330 年，波斯阿契美尼德王朝统治从中亚、印度河到埃及和爱琴海的广阔地区。",
+      "narrative": "帝国以行省、道路、贡赋和地方精英合作管理多语言社会，并允许多种宗教与法律传统延续。其治理方式成为后世帝国的重要参照。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 550,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 330
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c31-721e-9530-8b5a327f7907",
+      "slug": "athenian-democracy-reforms",
+      "title": "克利斯提尼改革奠定雅典民主制度",
+      "summary": "约公元前 508 年，克利斯提尼推动重组公民单位和议事机构的改革。",
+      "narrative": "改革削弱传统氏族和地区派系对政治的控制，扩大公民参与，并建立陶片放逐等制度背景。雅典民主仍排除妇女、奴隶和外邦居民。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 508
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c32-719c-bdcb-0794a3ddb0f0",
+      "slug": "chinese-cast-iron-expands",
+      "title": "铸铁技术在中国扩展",
+      "summary": "约公元前 500 至前 300 年，中国多地开始更广泛生产和使用铸铁工具。",
+      "narrative": "高温冶炼和铸造适合批量制造农具及其他器物，推动金属生产规模扩大。铁器与农业、战争和国家资源组织相互促进。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "科技",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c33-7ae0-9469-16fee0c07df4",
+      "slug": "early-buddhist-community",
+      "title": "佛教传统形成",
+      "summary": "约公元前 500 年，恒河中游地区形成围绕佛陀教导组织的早期佛教共同体。",
+      "narrative": "早期佛教以苦、修行、业与解脱为核心，并通过僧团纪律和口传教法延续。佛陀生平的绝对年代仍有争论，因此采用宽泛约数区间。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 500
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c34-779a-b84d-8f29543f57d9",
+      "slug": "early-zapotec-writing",
+      "title": "中部美洲文字获得明确考古证明",
+      "summary": "约公元前 500 年，蒙特阿尔班等遗址的材料为中部美洲文字提供了较明确的考古证据。",
+      "narrative": "这些铭刻被用于统治、战争和仪式性纪念，显示中部美洲已形成独立书写传统。部分符号的具体读法仍有争议。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 500
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c35-7849-862f-51c5aa164724",
+      "slug": "garamantes-state-forms",
+      "title": "加拉曼特绿洲国家形成",
+      "summary": "约公元前 500 年，费赞绿洲的加拉曼特人形成依托地下水利与聚落网络的早期国家。",
+      "narrative": "地下渠道支持撒哈拉绿洲农业，聚落和交通网络连接地中海与撒哈拉以南地区。加拉曼特国家说明沙漠内部也能形成复杂政治与交换体系。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 500
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-44c5-7ddd-8f84-24cd259f8d44"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c36-75ef-87e2-2d9ea5c51868",
+      "slug": "jain-community-consolidates",
+      "title": "耆那教在筏驮摩那时期定型",
+      "summary": "约公元前 500 年，南亚沙门传统中的耆那教形成稳定的教义与修行共同体。",
+      "narrative": "不伤害、苦行和灵魂解脱成为其核心原则。摩诃毗罗的精确年代存在争议，但耆那教在这一时期成为持续发展的独立宗教传统。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 500
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c37-7460-96f7-696e5b59bc3f",
+      "slug": "monte-alban-rises",
+      "title": "蒙特阿尔班发展为萨波特克政治中心",
+      "summary": "约公元前 500 至前 300 年，瓦哈卡谷地的蒙特阿尔班在山顶形成大型城市和仪式中心。",
+      "narrative": "公共建筑、纪念石刻和区域聚落重组显示政治权力趋于集中。它成为中部美洲延续时间很长的早期城市国家中心。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 500,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 300,
+          "circa": true
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4548-757e-876b-df2cac4226aa"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c38-76cb-b293-877e829840b6",
+      "slug": "nok-ironworking",
+      "title": "诺克陶塑与冶铁传统出现",
+      "summary": "约公元前 500 年，西非中部出现可辨识的诺克陶塑传统及铁冶炼证据。",
+      "narrative": "铁器与农业聚落、陶塑传统共同反映当地复杂社会的发展。早期年代和技术来源仍在讨论中，因此采用保守的约数区间。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 500
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c39-72d2-bab9-c79d12874bf2",
+      "slug": "greco-persian-wars",
+      "title": "希波战争",
+      "summary": "公元前 499 至前 449 年，波斯帝国与多个希腊城邦围绕爱琴海及其周边展开系列战争。",
+      "narrative": "战争使希腊本土主要城邦维持政治自主，并推动雅典海上同盟及古典时代权力格局形成。它同时揭示帝国与城邦体系之间长期而复杂的互动。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 499
+        },
+        "end": {
+          "era": "BCE",
+          "year": 449
+        }
+      },
+      "primaryCategory": "军事",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc",
+        "01a0a5b1-44df-7109-8127-510d623de8c9",
+        "01a0a5b1-44f2-730c-aa02-84d379387688"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3a-7163-99b5-b937827d0d7c",
+      "slug": "panini-grammar",
+      "title": "波你尼编成梵语语法体系",
+      "summary": "约公元前 400 年，波你尼以高度精炼的规则系统描述梵语。",
+      "narrative": "《八篇书》通过定义、顺序和元规则分析语言结构，体现出严密的形式化方法。它规范了古典梵语，并长期影响南亚语言学传统。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 400
+        }
+      },
+      "primaryCategory": "文化",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3b-7296-8c8c-71bd34632e12",
+      "slug": "shang-yang-reforms",
+      "title": "商鞅变法重塑秦国制度",
+      "summary": "公元前 356 至前 350 年间，秦国推行以户籍、军功、县制和农业激励为核心的改革。",
+      "narrative": "改革削弱世袭贵族特权，加强国家对人口、土地和军事资源的直接控制。秦由此形成更强的动员能力，但统一发生在本数据范围之外。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 356
+        },
+        "end": {
+          "era": "BCE",
+          "year": 350
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3c-70ba-b168-aceeb39f3baf",
+      "slug": "roman-conquest-of-italy",
+      "title": "罗马确立对意大利的支配",
+      "summary": "公元前 343 至前 264 年，罗马通过萨莫奈战争等冲突逐步确立对意大利大部的支配。",
+      "narrative": "罗马以公民权等级、盟约和殖民地把战败共同体纳入军事网络。这个联盟体系为其随后向地中海扩张提供了兵员和资源。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 343
+        },
+        "end": {
+          "era": "BCE",
+          "year": 264
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+        "01a0a5b1-4506-7c58-8af8-afb8d6cbe76b"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3d-7fb2-a0c3-01c3c41fe8c4",
+      "slug": "alexander-conquests",
+      "title": "亚历山大征服阿契美尼德帝国",
+      "summary": "公元前 334 至前 323 年，马其顿国王亚历山大率军征服波斯帝国并推进至印度河流域。",
+      "narrative": "征服打破了阿契美尼德王朝的统治，并把希腊、埃及、西亚和中亚更紧密地置于同一政治空间。亚历山大去世后帝国迅速分裂。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 334
+        },
+        "end": {
+          "era": "BCE",
+          "year": 323
+        }
+      },
+      "primaryCategory": "军事",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4464-7bf0-b00a-8f11104ff10a",
+        "01a0a5b1-4488-7191-ab6e-1c66a3e6b8a4",
+        "01a0a5b1-44a7-7fde-bbea-c5b52f6baedc"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3e-7d55-80f3-931e504b39d1",
+      "slug": "maurya-empire-founded",
+      "title": "孔雀帝国建立",
+      "summary": "约公元前 322 年，旃陀罗笈多在摩揭陀建立孔雀王朝并迅速扩张。",
+      "narrative": "孔雀帝国把南亚北部广大地区纳入统一王权和行政网络，并与希腊化世界保持外交联系。它成为南亚最早的大型帝国之一。",
+      "time": {
+        "kind": "year",
+        "year": {
+          "era": "BCE",
+          "year": 322
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c3f-7831-8de8-0e9df8b44b3c",
+      "slug": "first-punic-war",
+      "title": "第一次布匿战争改变西地中海力量格局",
+      "summary": "公元前 264 至前 241 年，罗马与迦太基围绕西西里及海上控制权长期战争。",
+      "narrative": "罗马建立大型舰队并取得西西里，开始从意大利强权转变为海外扩张国家。迦太基虽未被摧毁，但双方竞争进入新的阶段。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 264
+        },
+        "end": {
+          "era": "BCE",
+          "year": 241
+        }
+      },
+      "primaryCategory": "军事",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44bd-716f-8c58-f267e07c3a6b",
+        "01a0a5b1-44fb-794e-92ea-3649f1bd07f5",
+        "01a0a5b1-4516-7878-b354-64265599b501"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c40-7c17-b07d-2ff0b00c6e30",
+      "slug": "ashoka-rule-and-edicts",
+      "title": "阿育王战后推行“法”政策并传播铭文",
+      "summary": "约公元前 261 至前 232 年，阿育王以跨地域诏令传播伦理治理并支持佛教共同体。",
+      "narrative": "诏令以多种文字和语言强调克制、宽容、公共福利及对不同宗教群体的尊重。王室支持也促进佛教共同体跨地区传播。",
+      "time": {
+        "kind": "interval",
+        "start": {
+          "era": "BCE",
+          "year": 261,
+          "circa": true
+        },
+        "end": {
+          "era": "BCE",
+          "year": 232
+        }
+      },
+      "primaryCategory": "政治",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-4480-7bc1-8e79-75740c3137b3"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c41-7b52-bbac-937abfd10120",
+      "slug": "dujiangyan-irrigation-system",
+      "title": "都江堰水利系统建成",
+      "summary": "约公元前 256 年，秦国蜀郡在岷江修建分水、排沙和灌溉工程。",
+      "narrative": "工程利用河势而非高坝调节水流，减少洪灾并扩大成都平原灌溉农业。持续维护使这一系统长期服务当地社会。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 256
+        }
+      },
+      "primaryCategory": "科技",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-444c-734b-831d-667e359fd79d"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    },
+    {
+      "id": "01a09810-4c42-70d6-8a36-bf4a9dcc99e6",
+      "slug": "djenne-jeno-founded",
+      "title": "杰内杰诺聚落建立",
+      "summary": "约公元前 250 年，尼日尔河内三角洲的杰内杰诺开始形成稳定聚落。",
+      "narrative": "杰内杰诺后来发展为西非重要城市与交换中心，其早期建立表明内陆城市化具有本地发展路径。这里仅记录截止线以前可表达的聚落起点。",
+      "time": {
+        "kind": "circa",
+        "year": {
+          "era": "BCE",
+          "year": 250
+        }
+      },
+      "primaryCategory": "社会",
+      "prominence": 1,
+      "displayOrder": 1000,
+      "regionIds": [
+        "01a0a5b1-44cd-7553-bf47-de6830901c19"
+      ],
+      "placeIds": [],
+      "periodIds": [],
+      "figureIds": [],
+      "topicTagIds": []
+    }
+  ]
+}

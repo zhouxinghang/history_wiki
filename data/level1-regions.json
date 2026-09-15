@@ -1,0 +1,728 @@
+{
+  "source": "history_level1.json",
+  "purpose": "level1 事件数据录入用地区（Region）规范实体清单；导入事件前先按本清单创建地区，再把事件 regionIds 指向对应地区 UUID。",
+  "convention": {
+    "granularity": "宏观地理区与文明/政权/次区域并列为平级地区，单事件关联 1–3 个。",
+    "hierarchy": "地区在数据模型中没有层级；group 仅用于人工浏览分组，创建地区时忽略。",
+    "importFields": [
+      "name",
+      "disambiguationLabel"
+    ],
+    "creation": "POST /api/v1/admin/regions，需 Idempotency-Key 请求头；editor 角色即可创建。",
+    "eventField": "事件 regionIds 使用地区的 UUID，可用 eventRegions 中的地区名称对照。"
+  },
+  "regions": [
+    {
+      "key": "china",
+      "name": "中国",
+      "disambiguationLabel": null,
+      "group": "东亚",
+      "eventCount": 10
+    },
+    {
+      "key": "korean-peninsula",
+      "name": "朝鲜半岛",
+      "disambiguationLabel": null,
+      "group": "东亚",
+      "eventCount": 1
+    },
+    {
+      "key": "japanese-archipelago",
+      "name": "日本列岛",
+      "disambiguationLabel": null,
+      "group": "东亚",
+      "eventCount": 1
+    },
+    {
+      "key": "central-asia",
+      "name": "中亚",
+      "disambiguationLabel": null,
+      "group": "内亚与草原",
+      "eventCount": 4
+    },
+    {
+      "key": "eurasian-steppe",
+      "name": "欧亚草原",
+      "disambiguationLabel": null,
+      "group": "内亚与草原",
+      "eventCount": 3
+    },
+    {
+      "key": "pontic-caspian-steppe",
+      "name": "黑海—里海草原",
+      "disambiguationLabel": null,
+      "group": "内亚与草原",
+      "eventCount": 1
+    },
+    {
+      "key": "south-asia",
+      "name": "南亚",
+      "disambiguationLabel": null,
+      "group": "南亚",
+      "eventCount": 9
+    },
+    {
+      "key": "west-asia",
+      "name": "西亚",
+      "disambiguationLabel": null,
+      "group": "西亚",
+      "eventCount": 7
+    },
+    {
+      "key": "mesopotamia",
+      "name": "两河流域",
+      "disambiguationLabel": null,
+      "group": "西亚",
+      "eventCount": 6
+    },
+    {
+      "key": "levant",
+      "name": "黎凡特",
+      "disambiguationLabel": null,
+      "group": "西亚",
+      "eventCount": 3
+    },
+    {
+      "key": "anatolia",
+      "name": "安纳托利亚",
+      "disambiguationLabel": null,
+      "group": "西亚",
+      "eventCount": 1
+    },
+    {
+      "key": "persia",
+      "name": "波斯",
+      "disambiguationLabel": null,
+      "group": "西亚",
+      "eventCount": 3
+    },
+    {
+      "key": "ancient-egypt",
+      "name": "古埃及",
+      "disambiguationLabel": null,
+      "group": "东北非",
+      "eventCount": 6
+    },
+    {
+      "key": "nubia",
+      "name": "努比亚",
+      "disambiguationLabel": null,
+      "group": "东北非",
+      "eventCount": 3
+    },
+    {
+      "key": "north-africa",
+      "name": "北非",
+      "disambiguationLabel": null,
+      "group": "非洲",
+      "eventCount": 5
+    },
+    {
+      "key": "sahara",
+      "name": "撒哈拉",
+      "disambiguationLabel": null,
+      "group": "非洲",
+      "eventCount": 2
+    },
+    {
+      "key": "west-africa",
+      "name": "西非",
+      "disambiguationLabel": null,
+      "group": "非洲",
+      "eventCount": 3
+    },
+    {
+      "key": "horn-of-africa",
+      "name": "非洲之角",
+      "disambiguationLabel": null,
+      "group": "非洲",
+      "eventCount": 1
+    },
+    {
+      "key": "aegean",
+      "name": "爱琴海",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 3
+    },
+    {
+      "key": "ancient-greece",
+      "name": "古希腊",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 6
+    },
+    {
+      "key": "ancient-rome",
+      "name": "古罗马",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 2
+    },
+    {
+      "key": "italy",
+      "name": "意大利",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 1
+    },
+    {
+      "key": "mediterranean",
+      "name": "地中海",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 5
+    },
+    {
+      "key": "europe",
+      "name": "欧洲",
+      "disambiguationLabel": null,
+      "group": "欧洲与地中海",
+      "eventCount": 2
+    },
+    {
+      "key": "island-southeast-asia",
+      "name": "岛屿东南亚",
+      "disambiguationLabel": null,
+      "group": "东南亚与大洋洲",
+      "eventCount": 1
+    },
+    {
+      "key": "oceania",
+      "name": "大洋洲",
+      "disambiguationLabel": null,
+      "group": "东南亚与大洋洲",
+      "eventCount": 1
+    },
+    {
+      "key": "north-america",
+      "name": "北美洲",
+      "disambiguationLabel": null,
+      "group": "美洲",
+      "eventCount": 2
+    },
+    {
+      "key": "mesoamerica",
+      "name": "中部美洲",
+      "disambiguationLabel": null,
+      "group": "美洲",
+      "eventCount": 3
+    },
+    {
+      "key": "south-america",
+      "name": "南美洲",
+      "disambiguationLabel": null,
+      "group": "美洲",
+      "eventCount": 1
+    },
+    {
+      "key": "andes",
+      "name": "安第斯地区",
+      "disambiguationLabel": null,
+      "group": "美洲",
+      "eventCount": 2
+    }
+  ],
+  "eventRegions": [
+    {
+      "slug": "uruk-urbanization",
+      "title": "乌鲁克城市化与早期国家形成",
+      "regions": [
+        "两河流域"
+      ]
+    },
+    {
+      "slug": "valdivia-settlement-pottery",
+      "title": "瓦尔迪维亚定居与陶器传统发展",
+      "regions": [
+        "南美洲"
+      ]
+    },
+    {
+      "slug": "watson-brake-earthworks",
+      "title": "沃森布雷克土丘群营建",
+      "regions": [
+        "北美洲"
+      ]
+    },
+    {
+      "slug": "wheeled-transport-emerges",
+      "title": "轮式运输工具出现",
+      "regions": [
+        "西亚",
+        "欧洲",
+        "中亚"
+      ]
+    },
+    {
+      "slug": "liangzhu-civilization",
+      "title": "良渚早期区域国家形成",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "yamnaya-steppe-expansion",
+      "title": "亚姆纳亚相关草原人口大规模扩张",
+      "regions": [
+        "黑海—里海草原",
+        "欧亚草原"
+      ]
+    },
+    {
+      "slug": "cuneiform-writing-emerges",
+      "title": "楔形文字的早期形态形成",
+      "regions": [
+        "两河流域"
+      ]
+    },
+    {
+      "slug": "egyptian-hieroglyphic-writing",
+      "title": "埃及象形文字形成",
+      "regions": [
+        "古埃及"
+      ]
+    },
+    {
+      "slug": "unification-of-egypt",
+      "title": "古埃及完成政治统一",
+      "regions": [
+        "古埃及",
+        "北非"
+      ]
+    },
+    {
+      "slug": "caral-supe-civilization",
+      "title": "卡拉尔—苏佩文明兴起",
+      "regions": [
+        "安第斯地区"
+      ]
+    },
+    {
+      "slug": "indus-urban-civilization",
+      "title": "印度河文明进入成熟城市阶段",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "great-pyramid-of-giza",
+      "title": "吉萨大金字塔建成",
+      "regions": [
+        "古埃及",
+        "北非"
+      ]
+    },
+    {
+      "slug": "austronesian-expansion-to-philippines",
+      "title": "南岛语族新石器人群进入菲律宾与岛屿东南亚",
+      "regions": [
+        "岛屿东南亚"
+      ]
+    },
+    {
+      "slug": "kingdom-of-kerma",
+      "title": "克尔玛王国兴起",
+      "regions": [
+        "努比亚"
+      ]
+    },
+    {
+      "slug": "akkadian-empire",
+      "title": "阿卡德帝国建立跨城邦统治",
+      "regions": [
+        "两河流域",
+        "西亚"
+      ]
+    },
+    {
+      "slug": "sintashta-chariot-technology",
+      "title": "辛塔什塔战车技术形成",
+      "regions": [
+        "欧亚草原",
+        "中亚"
+      ]
+    },
+    {
+      "slug": "erlitou-urban-culture",
+      "title": "二里头大型政治中心形成",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "minoan-palatial-civilization",
+      "title": "克里特宫殿文明兴盛",
+      "regions": [
+        "爱琴海",
+        "欧洲"
+      ]
+    },
+    {
+      "slug": "code-of-hammurabi",
+      "title": "《汉谟拉比法典》形成",
+      "regions": [
+        "两河流域"
+      ]
+    },
+    {
+      "slug": "poverty-point-monumental-center",
+      "title": "贫困点土方工程与交换中心兴盛",
+      "regions": [
+        "北美洲"
+      ]
+    },
+    {
+      "slug": "hittite-empire",
+      "title": "赫梯国家发展为西亚强权",
+      "regions": [
+        "安纳托利亚",
+        "西亚"
+      ]
+    },
+    {
+      "slug": "dhar-tichitt-settlements",
+      "title": "达尔·蒂希特复杂聚落体系形成",
+      "regions": [
+        "西非",
+        "撒哈拉"
+      ]
+    },
+    {
+      "slug": "lapita-expansion",
+      "title": "拉皮塔文化向远大洋洲扩展",
+      "regions": [
+        "大洋洲"
+      ]
+    },
+    {
+      "slug": "mycenaean-civilization",
+      "title": "迈锡尼宫殿文明兴盛",
+      "regions": [
+        "古希腊",
+        "爱琴海"
+      ]
+    },
+    {
+      "slug": "shang-dynasty",
+      "title": "商王朝时期",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "egyptian-new-kingdom",
+      "title": "古埃及新王国建立帝国秩序",
+      "regions": [
+        "古埃及",
+        "努比亚",
+        "西亚"
+      ]
+    },
+    {
+      "slug": "chavin-de-huantar",
+      "title": "查文宗教与文化汇聚中心兴盛",
+      "regions": [
+        "安第斯地区"
+      ]
+    },
+    {
+      "slug": "mumun-agrarian-society",
+      "title": "朝鲜半岛无文土器农业社会发展",
+      "regions": [
+        "朝鲜半岛"
+      ]
+    },
+    {
+      "slug": "vedic-tradition",
+      "title": "吠陀传统形成并传播",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "oracle-bone-writing",
+      "title": "甲骨文形成系统记录",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "late-bronze-age-collapse",
+      "title": "东地中海青铜时代体系崩解",
+      "regions": [
+        "地中海",
+        "西亚"
+      ]
+    },
+    {
+      "slug": "olmec-civilization",
+      "title": "奥尔梅克文明时期",
+      "regions": [
+        "中部美洲"
+      ]
+    },
+    {
+      "slug": "phoenician-alphabet",
+      "title": "腓尼基字母体系定型",
+      "regions": [
+        "黎凡特",
+        "地中海"
+      ]
+    },
+    {
+      "slug": "western-zhou-founded",
+      "title": "周灭商与天命政治框架形成",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "neo-assyrian-empire",
+      "title": "新亚述帝国建立广域统治",
+      "regions": [
+        "两河流域",
+        "黎凡特",
+        "古埃及"
+      ]
+    },
+    {
+      "slug": "yayoi-transition",
+      "title": "日本列岛进入弥生农业社会",
+      "regions": [
+        "日本列岛"
+      ]
+    },
+    {
+      "slug": "carthage-rises",
+      "title": "迦太基建立并成为地中海贸易中心",
+      "regions": [
+        "北非",
+        "地中海"
+      ]
+    },
+    {
+      "slug": "kingdom-of-dmt",
+      "title": "达阿马特王国兴起",
+      "regions": [
+        "非洲之角"
+      ]
+    },
+    {
+      "slug": "scythian-steppe-culture",
+      "title": "斯基泰草原体系形成",
+      "regions": [
+        "欧亚草原"
+      ]
+    },
+    {
+      "slug": "spring-and-autumn-order",
+      "title": "春秋时期诸侯秩序形成",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "greek-colonization",
+      "title": "希腊殖民扩张",
+      "regions": [
+        "古希腊",
+        "地中海"
+      ]
+    },
+    {
+      "slug": "homeric-epics",
+      "title": "《伊利亚特》《奥德赛》口述传统定型",
+      "regions": [
+        "古希腊"
+      ]
+    },
+    {
+      "slug": "kushite-rule-of-egypt",
+      "title": "库施征服并统治埃及",
+      "regions": [
+        "努比亚",
+        "古埃及"
+      ]
+    },
+    {
+      "slug": "early-upanishads",
+      "title": "早期《奥义书》思想形成",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "classical-greek-philosophy",
+      "title": "古典希腊哲学体系形成",
+      "regions": [
+        "古希腊"
+      ]
+    },
+    {
+      "slug": "mahajanapadas-and-second-urbanization",
+      "title": "恒河流域第二次城市化",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "babylonian-exile",
+      "title": "巴比伦之囚重塑犹太共同体",
+      "regions": [
+        "黎凡特",
+        "两河流域"
+      ]
+    },
+    {
+      "slug": "confucian-teaching",
+      "title": "孔子讲学与儒家传统奠基",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "achaemenid-empire",
+      "title": "阿契美尼德帝国建立跨洲统治",
+      "regions": [
+        "波斯",
+        "西亚",
+        "中亚"
+      ]
+    },
+    {
+      "slug": "athenian-democracy-reforms",
+      "title": "克利斯提尼改革奠定雅典民主制度",
+      "regions": [
+        "古希腊"
+      ]
+    },
+    {
+      "slug": "chinese-cast-iron-expands",
+      "title": "铸铁技术在中国扩展",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "early-buddhist-community",
+      "title": "佛教传统形成",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "early-zapotec-writing",
+      "title": "中部美洲文字获得明确考古证明",
+      "regions": [
+        "中部美洲"
+      ]
+    },
+    {
+      "slug": "garamantes-state-forms",
+      "title": "加拉曼特绿洲国家形成",
+      "regions": [
+        "北非",
+        "撒哈拉"
+      ]
+    },
+    {
+      "slug": "jain-community-consolidates",
+      "title": "耆那教在筏驮摩那时期定型",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "monte-alban-rises",
+      "title": "蒙特阿尔班发展为萨波特克政治中心",
+      "regions": [
+        "中部美洲"
+      ]
+    },
+    {
+      "slug": "nok-ironworking",
+      "title": "诺克陶塑与冶铁传统出现",
+      "regions": [
+        "西非"
+      ]
+    },
+    {
+      "slug": "greco-persian-wars",
+      "title": "希波战争",
+      "regions": [
+        "古希腊",
+        "波斯",
+        "爱琴海"
+      ]
+    },
+    {
+      "slug": "panini-grammar",
+      "title": "波你尼编成梵语语法体系",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "shang-yang-reforms",
+      "title": "商鞅变法重塑秦国制度",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "roman-conquest-of-italy",
+      "title": "罗马确立对意大利的支配",
+      "regions": [
+        "古罗马",
+        "意大利"
+      ]
+    },
+    {
+      "slug": "alexander-conquests",
+      "title": "亚历山大征服阿契美尼德帝国",
+      "regions": [
+        "波斯",
+        "西亚",
+        "中亚"
+      ]
+    },
+    {
+      "slug": "maurya-empire-founded",
+      "title": "孔雀帝国建立",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "first-punic-war",
+      "title": "第一次布匿战争改变西地中海力量格局",
+      "regions": [
+        "古罗马",
+        "地中海",
+        "北非"
+      ]
+    },
+    {
+      "slug": "ashoka-rule-and-edicts",
+      "title": "阿育王战后推行“法”政策并传播铭文",
+      "regions": [
+        "南亚"
+      ]
+    },
+    {
+      "slug": "dujiangyan-irrigation-system",
+      "title": "都江堰水利系统建成",
+      "regions": [
+        "中国"
+      ]
+    },
+    {
+      "slug": "djenne-jeno-founded",
+      "title": "杰内杰诺聚落建立",
+      "regions": [
+        "西非"
+      ]
+    }
+  ]
+}
