@@ -279,40 +279,44 @@ func (store *Postgres) QueryPublishedEvents(ctx context.Context, query historyev
 		categories[index] = string(category)
 	}
 	searchJoin := ""
-	searchPredicate := " AND $3 = ''"
 	if strings.TrimSpace(query.SearchTerm) != "" {
 		searchJoin = " JOIN published_event_search search ON search.event_id = event.id AND search.event_revision_id = revision.id"
-		searchPredicate = " AND search.searchable_text ILIKE $3 ESCAPE '\\'"
 	}
-	candidatePredicate := func(coordinateFrom, coordinateTo string) string {
+	candidatePredicate := func(coordinateFrom, coordinateTo, searchParam, periodParam, regionParam, figureParam, categoryParam string) string {
+		searchPredicate := " AND " + searchParam + " = ''"
+		if strings.TrimSpace(query.SearchTerm) != "" {
+			searchPredicate = " AND search.searchable_text ILIKE " + searchParam + " ESCAPE '\\'"
+		}
 		return `
 		FROM events event
 		JOIN event_revisions revision ON revision.id = event.current_revision_id` + searchJoin + `
 		WHERE event.publication_status = 'published'
 		  AND revision.start_coordinate <= ` + coordinateTo + ` AND revision.end_coordinate >= ` + coordinateFrom + `
 		  ` + searchPredicate + `
-		  AND (COALESCE(cardinality($4::uuid[]), 0) = 0 OR EXISTS (
+		  AND (COALESCE(cardinality(` + periodParam + `::uuid[]), 0) = 0 OR EXISTS (
 			SELECT 1 FROM event_revision_periods relation
 			WHERE relation.event_revision_id = revision.id
-			  AND relation.historical_period_id = ANY($4::uuid[])
+			  AND relation.historical_period_id = ANY(` + periodParam + `::uuid[])
 		  ))
-		  AND (COALESCE(cardinality($5::uuid[]), 0) = 0 OR EXISTS (
+		  AND (COALESCE(cardinality(` + regionParam + `::uuid[]), 0) = 0 OR EXISTS (
 			SELECT 1 FROM event_revision_regions relation
 			WHERE relation.event_revision_id = revision.id
-			  AND relation.region_id = ANY($5::uuid[])
+			  AND relation.region_id = ANY(` + regionParam + `::uuid[])
 		  ))
-		  AND (COALESCE(cardinality($6::uuid[]), 0) = 0 OR EXISTS (
+		  AND (COALESCE(cardinality(` + figureParam + `::uuid[]), 0) = 0 OR EXISTS (
 			SELECT 1 FROM event_revision_figures relation
 			WHERE relation.event_revision_id = revision.id
-			  AND relation.historical_figure_id = ANY($6::uuid[])
+			  AND relation.historical_figure_id = ANY(` + figureParam + `::uuid[])
 		  ))
-		  AND (COALESCE(cardinality($7::text[]), 0) = 0 OR revision.primary_category::text = ANY($7::text[]))`
+		  AND (COALESCE(cardinality(` + categoryParam + `::text[]), 0) = 0 OR revision.primary_category::text = ANY(` + categoryParam + `::text[]))`
 	}
-	args := []any{query.From, query.To, literalSubstringPattern(query.SearchTerm), periodIDs, regionIDs, figureIDs, categories}
+	filterArgs := func(from, to float64) []any {
+		return []any{from, to, literalSubstringPattern(query.SearchTerm), periodIDs, regionIDs, figureIDs, categories}
+	}
 	if err := tx.QueryRow(ctx, `
 		SELECT
 			(SELECT count(*) FROM events WHERE publication_status = 'published'),
-			count(*) `+candidatePredicate("$1", "$2"), args...).Scan(&result.SourceTotal, &result.TotalMatching); err != nil {
+			count(*) `+candidatePredicate("$1", "$2", "$3", "$4", "$5", "$6", "$7"), filterArgs(query.From, query.To)...).Scan(&result.SourceTotal, &result.TotalMatching); err != nil {
 		return result, fmt.Errorf("count published event query: %w", err)
 	}
 	rows, err := tx.Query(ctx, `
@@ -323,10 +327,10 @@ func (store *Postgres) QueryPublishedEvents(ctx context.Context, query historyev
 			revision.start_month, revision.start_day, revision.start_circa,
 			revision.end_era::text, revision.end_year, revision.end_circa,
 			revision.primary_category::text, revision.prominence, revision.display_order,
-			revision.published_by, revision.published_at, revision.start_coordinate `+candidatePredicate("$8", "$9")+`
-		  AND revision.prominence <= $10
-		LIMIT $11
-	`, append(args, query.EventFrom, query.EventTo, query.MaximumProminence, maximumPublishedEventQueryResults+1)...)
+			revision.published_by, revision.published_at, revision.start_coordinate `+candidatePredicate("$1", "$2", "$3", "$4", "$5", "$6", "$7")+`
+		  AND revision.prominence <= $8
+		LIMIT $9
+	`, append(filterArgs(query.EventFrom, query.EventTo), query.MaximumProminence, maximumPublishedEventQueryResults+1)...)
 	if err != nil {
 		return result, fmt.Errorf("query published events: %w", err)
 	}
