@@ -6,6 +6,7 @@ import {
 } from './components/SearchFilters'
 import { Timeline } from './components/Timeline'
 import { createHttpHistoryEventRepository } from './data/httpHistoryEventRepository'
+import { createCachingHistoryEventRepository } from './data/cachingHistoryEventRepository'
 import {
   createExplorationUrl,
   normalizeUrlViewport,
@@ -16,6 +17,8 @@ import {
 import {
   coordinateToHistoricalYear,
   formatHistoricalYear,
+  rangesIntersect,
+  timeExpressionRange,
   type HistoricalEvent,
   type HistoryEventFilterMetadata,
   type HistoryEventFilters,
@@ -69,7 +72,9 @@ export default function App({
   const initialQueryCriteriaRef = useRef(initialQueryCriteria)
   const activeRepository = useMemo(
     () => {
-      const defaultRepository = createHttpHistoryEventRepository()
+      const defaultRepository = createCachingHistoryEventRepository(
+        createHttpHistoryEventRepository(),
+      )
       return (
         repository ??
         window.__historyWikiDemoRepositoryFactory?.(defaultRepository) ??
@@ -294,6 +299,15 @@ export default function App({
   const emptyState = queryResult
     ? getEmptyState(queryResult, hasQueryCriteria)
     : null
+  const visibleEventCount = useMemo(
+    () =>
+      queryResult && viewport
+        ? queryResult.events.filter((event) =>
+            rangesIntersect(timeExpressionRange(event.time), viewport),
+          ).length
+        : 0,
+    [queryResult, viewport],
+  )
 
   function reloadSource() {
     setStatus('loading')
@@ -605,7 +619,7 @@ export default function App({
                   {!emptyState && (
                     <div className="timeline-toolbar">
                       <p aria-live="polite">
-                        当前呈现 <strong>{queryResult.events.length}</strong> 条；当前范围匹配{' '}
+                        当前呈现 <strong>{visibleEventCount}</strong> 条；当前范围匹配{' '}
                         <strong>{queryResult.totalMatching}</strong> 条历史事件
                       </p>
                       <p>

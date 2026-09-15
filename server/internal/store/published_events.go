@@ -284,11 +284,12 @@ func (store *Postgres) QueryPublishedEvents(ctx context.Context, query historyev
 		searchJoin = " JOIN published_event_search search ON search.event_id = event.id AND search.event_revision_id = revision.id"
 		searchPredicate = " AND search.searchable_text ILIKE $3 ESCAPE '\\'"
 	}
-	candidates := `
+	candidatePredicate := func(coordinateFrom, coordinateTo string) string {
+		return `
 		FROM events event
 		JOIN event_revisions revision ON revision.id = event.current_revision_id` + searchJoin + `
 		WHERE event.publication_status = 'published'
-		  AND revision.start_coordinate <= $2 AND revision.end_coordinate >= $1
+		  AND revision.start_coordinate <= ` + coordinateTo + ` AND revision.end_coordinate >= ` + coordinateFrom + `
 		  ` + searchPredicate + `
 		  AND (COALESCE(cardinality($4::uuid[]), 0) = 0 OR EXISTS (
 			SELECT 1 FROM event_revision_periods relation
@@ -306,11 +307,12 @@ func (store *Postgres) QueryPublishedEvents(ctx context.Context, query historyev
 			  AND relation.historical_figure_id = ANY($6::uuid[])
 		  ))
 		  AND (COALESCE(cardinality($7::text[]), 0) = 0 OR revision.primary_category::text = ANY($7::text[]))`
+	}
 	args := []any{query.From, query.To, literalSubstringPattern(query.SearchTerm), periodIDs, regionIDs, figureIDs, categories}
 	if err := tx.QueryRow(ctx, `
 		SELECT
 			(SELECT count(*) FROM events WHERE publication_status = 'published'),
-			count(*) `+candidates, args...).Scan(&result.SourceTotal, &result.TotalMatching); err != nil {
+			count(*) `+candidatePredicate("$1", "$2"), args...).Scan(&result.SourceTotal, &result.TotalMatching); err != nil {
 		return result, fmt.Errorf("count published event query: %w", err)
 	}
 	rows, err := tx.Query(ctx, `
@@ -321,10 +323,10 @@ func (store *Postgres) QueryPublishedEvents(ctx context.Context, query historyev
 			revision.start_month, revision.start_day, revision.start_circa,
 			revision.end_era::text, revision.end_year, revision.end_circa,
 			revision.primary_category::text, revision.prominence, revision.display_order,
-			revision.published_by, revision.published_at, revision.start_coordinate `+candidates+`
-		  AND revision.prominence <= $8
-		LIMIT $9
-	`, append(args, query.MaximumProminence, maximumPublishedEventQueryResults+1)...)
+			revision.published_by, revision.published_at, revision.start_coordinate `+candidatePredicate("$8", "$9")+`
+		  AND revision.prominence <= $10
+		LIMIT $11
+	`, append(args, query.EventFrom, query.EventTo, query.MaximumProminence, maximumPublishedEventQueryResults+1)...)
 	if err != nil {
 		return result, fmt.Errorf("query published events: %w", err)
 	}

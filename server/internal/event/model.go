@@ -123,6 +123,8 @@ type ArchiveCommand struct {
 type PublishedEventQuery struct {
 	From              float64
 	To                float64
+	EventFrom         float64
+	EventTo           float64
 	SearchTerm        string
 	PeriodIDs         []string
 	RegionIDs         []string

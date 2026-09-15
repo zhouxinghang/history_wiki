@@ -158,6 +158,16 @@ func TestPublishedEventQueryContractAgainstPostgres(t *testing.T) {
 		}
 	})
 
+	t.Run("padding widens the event window while counts stay with the visible range", func(t *testing.T) {
+		result := readPublishedQuery(t, handler, "/api/v1/events?from=19&to=21&pad=20")
+		if result.CoveredFrom != -1 || result.CoveredTo != 41 {
+			t.Fatalf("covered window = [%v, %v], want [-1, 41]", result.CoveredFrom, result.CoveredTo)
+		}
+		if result.TotalMatching != 4 || result.ReturnedProminence != 3 || len(result.Events) != 5 {
+			t.Fatalf("padded result = matching %d, prominence %d, events %d", result.TotalMatching, result.ReturnedProminence, len(result.Events))
+		}
+	})
+
 	t.Run("metadata uses period regions while detail and bounds are independent", func(t *testing.T) {
 		metadata := performJSON(t, handler, http.MethodGet, "/api/v1/event-metadata", "", nil)
 		if metadata.Code != http.StatusOK {
@@ -199,7 +209,7 @@ func TestPublishedEventQueryContractAgainstPostgres(t *testing.T) {
 			t.Fatalf("large result status = %d, body = %s", response.Code, response.Body.String())
 		}
 		filtered, err := database.QueryPublishedEvents(ctx, historyevent.PublishedEventQuery{
-			From: 99, To: 101, MaximumProminence: 2,
+			From: 99, To: 101, EventFrom: 99, EventTo: 101, MaximumProminence: 2,
 		})
 		if err != nil || filtered.TotalMatching != 5_001 || len(filtered.Events) != 0 {
 			t.Fatalf("post-prominence limit = result %#v, error %v", filtered, err)
@@ -212,7 +222,7 @@ func TestPublishedEventQueryContractAgainstPostgres(t *testing.T) {
 		}
 		startedAt := time.Now()
 		allowed, err := database.QueryPublishedEvents(ctx, historyevent.PublishedEventQuery{
-			From: 99, To: 101, MaximumProminence: 3,
+			From: 99, To: 101, EventFrom: 99, EventTo: 101, MaximumProminence: 3,
 		})
 		if err != nil {
 			t.Fatal(err)

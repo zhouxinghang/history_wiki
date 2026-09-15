@@ -1271,6 +1271,10 @@ export interface components {
             sourceTotal: number;
             totalMatching: number;
             returnedProminence: components["schemas"]["EventProminence"];
+            /** @description 返回事件窗口的下界，等于可视范围下界减去 pad */
+            coveredFrom: number;
+            /** @description 返回事件窗口的上界，等于可视范围上界加上 pad */
+            coveredTo: number;
         };
         HistoricalEvent: {
             /** Format: uuid */
@@ -1512,6 +1516,8 @@ export interface operations {
             query: {
                 from: components["parameters"]["From"];
                 to: components["parameters"]["To"];
+                /** @description 在可视范围两侧额外读取的历史年数；仅扩大返回的事件窗口，不改变显著度与计数语义 */
+                pad?: number;
                 /** @description 在标题、摘要、正文、地点、历史人物和主题标签中做字面子串搜索；拉丁字符不区分大小写 */
                 q?: string;
                 period?: string[];

@@ -84,6 +84,10 @@ paths:
       parameters:
         - $ref: "#/components/parameters/From"
         - $ref: "#/components/parameters/To"
+        - name: pad
+          in: query
+          description: 在可视范围两侧额外读取的历史年数；仅扩大返回的事件窗口，不改变显著度与计数语义
+          schema: { type: number, minimum: 0, default: 0 }
         - name: q
           in: query
           description: 在标题、摘要、正文、地点、历史人物和主题标签中做字面子串搜索；拉丁字符不区分大小写
@@ -120,6 +124,8 @@ paths:
                     sourceTotal: 0
                     totalMatching: 0
                     returnedProminence: 3
+                    coveredFrom: -100
+                    coveredTo: 100
         "400":
           $ref: "#/components/responses/Problem"
         "422":
@@ -2212,7 +2218,7 @@ components:
           items: { $ref: "#/components/schemas/PrimaryCategory" }
     EventQueryResult:
       type: object
-      required: [events, sourceTotal, totalMatching, returnedProminence]
+      required: [events, sourceTotal, totalMatching, returnedProminence, coveredFrom, coveredTo]
       properties:
         events:
           type: array
@@ -2220,6 +2226,12 @@ components:
         sourceTotal: { type: integer, minimum: 0 }
         totalMatching: { type: integer, minimum: 0 }
         returnedProminence: { $ref: "#/components/schemas/EventProminence" }
+        coveredFrom:
+          type: number
+          description: 返回事件窗口的下界，等于可视范围下界减去 pad
+        coveredTo:
+          type: number
+          description: 返回事件窗口的上界，等于可视范围上界加上 pad
     HistoricalEvent:
       type: object
       required:

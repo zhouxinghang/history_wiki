@@ -67,6 +67,79 @@ describe('HTTP History Event Repository', () => {
     expect(url.searchParams.getAll('category')).toEqual(['政治', '军事'])
   })
 
+  it('默认在两侧预取更宽的事件窗口并返回覆盖范围', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      jsonResponse({
+        events: [], sourceTotal: 0, totalMatching: 0, returnedProminence: 3,
+        coveredFrom: -200, coveredTo: 200,
+      }),
+    )
+    const repository = createHttpHistoryEventRepository({
+      fetch,
+      paddingRatio: 0.5,
+    })
+
+    const result = await repository.query({
+      visibleRange: { start: -100, end: 100 },
+    })
+
+    const url = new URL(String(fetch.mock.calls[0][0]), 'http://localhost')
+    expect(url.searchParams.get('pad')).toBe('100')
+    expect(result.coveredRange).toEqual({ start: -200, end: 200 })
+  })
+
+  it('显式 padding 覆盖默认比例，为 0 时不再请求预取', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
+      jsonResponse({
+        events: [], sourceTotal: 0, totalMatching: 0, returnedProminence: 3,
+      }),
+    )
+    const repository = createHttpHistoryEventRepository({
+      fetch,
+      paddingRatio: 0.5,
+    })
+
+    await repository.query({
+      visibleRange: { start: 0, end: 100 },
+      padding: 0,
+    })
+
+    const url = new URL(String(fetch.mock.calls[0][0]), 'http://localhost')
+    expect(url.searchParams.has('pad')).toBe(false)
+  })
+
+  it('预取窗口超限时回退到仅可视范围', async () => {
+    const fetch = vi.fn<typeof globalThis.fetch>()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({
+          title: '查询结果过多', detail: '请缩小时间范围。', code: 'result_set_too_large',
+        }), {
+          status: 422,
+          headers: { 'Content-Type': 'application/problem+json' },
+        }),
+      )
+      .mockResolvedValueOnce(jsonResponse({
+        events: [], sourceTotal: 0, totalMatching: 0, returnedProminence: 3,
+      }))
+    const repository = createHttpHistoryEventRepository({
+      fetch,
+      paddingRatio: 0.5,
+    })
+
+    const result = await repository.query({
+      visibleRange: { start: 0, end: 10 },
+    })
+
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(
+      new URL(String(fetch.mock.calls[0][0]), 'http://localhost').searchParams.get('pad'),
+    ).toBe('5')
+    expect(
+      new URL(String(fetch.mock.calls[1][0]), 'http://localhost').searchParams.has('pad'),
+    ).toBe(false)
+    expect(result.totalMatching).toBe(0)
+  })
+
   it('透传 AbortSignal，并把 Problem Details 转换为可处理错误', async () => {
     const controller = new AbortController()
     const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
@@ -79,7 +152,10 @@ describe('HTTP History Event Repository', () => {
         headers: { 'Content-Type': 'application/problem+json' },
       }),
     )
-    const repository = createHttpHistoryEventRepository({ fetch })
+    const repository = createHttpHistoryEventRepository({
+      fetch,
+      paddingRatio: 0,
+    })
 
     const promise = repository.query({
       visibleRange: { start: 0, end: 1 },

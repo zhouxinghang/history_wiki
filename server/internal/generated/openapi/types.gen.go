@@ -349,6 +349,11 @@ type EventProminence int
 
 // EventQueryResult defines model for EventQueryResult.
 type EventQueryResult struct {
+	// CoveredFrom 返回事件窗口的下界，等于可视范围下界减去 pad
+	CoveredFrom float32 `json:"coveredFrom"`
+
+	// CoveredTo 返回事件窗口的上界，等于可视范围上界加上 pad
+	CoveredTo          float32           `json:"coveredTo"`
 	Events             []HistoricalEvent `json:"events"`
 	ReturnedProminence EventProminence   `json:"returnedProminence"`
 	SourceTotal        int               `json:"sourceTotal"`
@@ -1011,6 +1016,9 @@ type LogoutParams struct {
 type QueryEventsParams struct {
 	From From `form:"from" json:"from"`
 	To   To   `form:"to" json:"to"`
+
+	// Pad 在可视范围两侧额外读取的历史年数；仅扩大返回的事件窗口，不改变显著度与计数语义
+	Pad *float32 `form:"pad,omitempty" json:"pad,omitempty"`
 
 	// Q 在标题、摘要、正文、地点、历史人物和主题标签中做字面子串搜索；拉丁字符不区分大小写
 	Q        *string               `form:"q,omitempty" json:"q,omitempty"`

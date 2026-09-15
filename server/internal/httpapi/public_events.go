@@ -32,6 +32,8 @@ type publishedEventQueryResponse struct {
 	SourceTotal        int                      `json:"sourceTotal"`
 	TotalMatching      int                      `json:"totalMatching"`
 	ReturnedProminence int                      `json:"returnedProminence"`
+	CoveredFrom        float64                  `json:"coveredFrom"`
+	CoveredTo          float64                  `json:"coveredTo"`
 }
 
 type periodFilterGroupResponse struct {
@@ -106,14 +108,17 @@ func (server *Server) readPublishedEventMetadata(writer http.ResponseWriter, req
 	writeJSON(writer, http.StatusOK, response)
 }
 
-func (server *Server) readPublishedEvents(writer http.ResponseWriter, request *http.Request, from, to float64) {
+func (server *Server) readPublishedEvents(writer http.ResponseWriter, request *http.Request, from, to, padding float64) {
 	returnedProminence := prominenceForSpan(to - from)
+	eventFrom := from - padding
+	eventTo := to + padding
 	if server.publicEventStore == nil {
 		if !server.requireEmptyCatalog(writer, request) {
 			return
 		}
 		writeJSON(writer, http.StatusOK, publishedEventQueryResponse{
 			Events: []publishedEventResponse{}, ReturnedProminence: returnedProminence,
+			CoveredFrom: eventFrom, CoveredTo: eventTo,
 		})
 		return
 	}
@@ -134,7 +139,7 @@ func (server *Server) readPublishedEvents(writer http.ResponseWriter, request *h
 		return
 	}
 	result, err := server.publicEventStore.QueryPublishedEvents(request.Context(), historyevent.PublishedEventQuery{
-		From: from, To: to, SearchTerm: strings.TrimSpace(request.URL.Query().Get("q")),
+		From: from, To: to, EventFrom: eventFrom, EventTo: eventTo, SearchTerm: strings.TrimSpace(request.URL.Query().Get("q")),
 		PeriodIDs: periodIDs, RegionIDs: regionIDs, FigureIDs: figureIDs,
 		PrimaryCategories: categories, MaximumProminence: returnedProminence,
 	})
@@ -153,7 +158,7 @@ func (server *Server) readPublishedEvents(writer http.ResponseWriter, request *h
 	}
 	writeJSON(writer, http.StatusOK, publishedEventQueryResponse{
 		Events: events, SourceTotal: result.SourceTotal, TotalMatching: result.TotalMatching,
-		ReturnedProminence: returnedProminence,
+		ReturnedProminence: returnedProminence, CoveredFrom: eventFrom, CoveredTo: eventTo,
 	})
 }
 

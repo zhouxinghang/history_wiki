@@ -54,6 +54,14 @@ func TestEmptyCatalogContract(t *testing.T) {
 			path: "/api/v1/events?from=-100&to=100",
 			want: map[string]any{
 				"events": []any{}, "sourceTotal": float64(0), "totalMatching": float64(0), "returnedProminence": float64(3),
+				"coveredFrom": float64(-100), "coveredTo": float64(100),
+			},
+		},
+		{
+			path: "/api/v1/events?from=-100&to=100&pad=25",
+			want: map[string]any{
+				"events": []any{}, "sourceTotal": float64(0), "totalMatching": float64(0), "returnedProminence": float64(3),
+				"coveredFrom": float64(-125), "coveredTo": float64(125),
 			},
 		},
 	}
@@ -94,6 +102,10 @@ func TestEventQueryValidatesRange(t *testing.T) {
 		"/api/v1/events",
 		"/api/v1/events?from=1&to=1",
 		"/api/v1/events?from=not-a-number&to=2",
+		"/api/v1/events?from=0&to=2&pad=-1",
+		"/api/v1/events?from=0&to=2&pad=not-a-number",
+		"/api/v1/events?from=0&to=2&pad=NaN",
+		"/api/v1/events?from=0&to=2&pad=Inf",
 	} {
 		response := httptest.NewRecorder()
 		server.ServeHTTP(response, httptest.NewRequest(http.MethodGet, path, nil))

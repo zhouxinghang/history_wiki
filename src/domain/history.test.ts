@@ -4,6 +4,7 @@ import {
   formatTimeExpression,
   historicalYearToCoordinate,
   rangesIntersect,
+  resolveHistoryEventQueryPadding,
   timeExpressionRange,
 } from './history'
 import type { HistoricalEvent } from './history'
@@ -96,5 +97,43 @@ describe('历史纪年', () => {
       { ...base, id: 'a' },
       base,
     ])
+  })
+})
+
+describe('历史事件查询预取侧宽', () => {
+  it('显式 padding 优先于数据源比例，非正数按 0 处理', () => {
+    expect(
+      resolveHistoryEventQueryPadding(
+        { visibleRange: { start: 0, end: 100 }, padding: 25 },
+        0.5,
+      ),
+    ).toBe(25)
+    expect(
+      resolveHistoryEventQueryPadding(
+        { visibleRange: { start: 0, end: 100 }, padding: 0 },
+        0.5,
+      ),
+    ).toBe(0)
+    expect(
+      resolveHistoryEventQueryPadding(
+        { visibleRange: { start: 0, end: 100 }, padding: Number.NaN },
+        0.5,
+      ),
+    ).toBe(0)
+  })
+
+  it('未提供 padding 时按可视跨度乘以比例计算', () => {
+    expect(
+      resolveHistoryEventQueryPadding(
+        { visibleRange: { start: -50, end: 50 } },
+        0.5,
+      ),
+    ).toBe(50)
+    expect(
+      resolveHistoryEventQueryPadding(
+        { visibleRange: { start: 0, end: 100 } },
+        0,
+      ),
+    ).toBe(0)
   })
 })

@@ -147,6 +147,25 @@ describe.each<RepositoryFixture & { name: string }>([
     ])
   })
 
+  it('预取返回更宽的事件窗口，计数仍以可视范围为准', async () => {
+    const repository = create()
+    const result = await repository.query({
+      visibleRange: { start: 15, end: 25 },
+      padding: 10,
+    })
+
+    expect(result).toMatchObject({
+      totalMatching: 2,
+      returnedProminence: 3,
+      coveredRange: { start: 5, end: 35 },
+    })
+    expect(result.events.map((event) => event.id)).toEqual([
+      ids.eventA,
+      ids.eventB,
+      ids.eventC,
+    ])
+  })
+
   it('显著度过滤后第 5,001 条以稳定错误拒绝', async () => {
     const dense = Array.from({ length: 5_001 }, (_, index) => ({
       ...eventA,
@@ -190,6 +209,9 @@ function createHttpRepositoryFixture(events: HistoricalEvent[]): HistoryEventRep
           start: Number(url.searchParams.get('from')),
           end: Number(url.searchParams.get('to')),
         },
+        padding: url.searchParams.has('pad')
+          ? Number(url.searchParams.get('pad'))
+          : undefined,
         searchTerm: url.searchParams.get('q') ?? undefined,
         filters: {
           periods: url.searchParams.getAll('period'),
@@ -199,8 +221,16 @@ function createHttpRepositoryFixture(events: HistoricalEvent[]): HistoryEventRep
         },
       })
       return jsonResponse({
-        ...result,
         events: result.events.map((event) => toApiEvent(event, fixtureMetadata)),
+        sourceTotal: result.sourceTotal,
+        totalMatching: result.totalMatching,
+        returnedProminence: result.returnedProminence,
+        ...(result.coveredRange
+          ? {
+              coveredFrom: result.coveredRange.start,
+              coveredTo: result.coveredRange.end,
+            }
+          : {}),
       })
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'result_set_too_large') {
@@ -211,7 +241,7 @@ function createHttpRepositoryFixture(events: HistoricalEvent[]): HistoryEventRep
       throw error
     }
   })
-  return createHttpHistoryEventRepository({ fetch })
+  return createHttpHistoryEventRepository({ fetch, paddingRatio: 0 })
 }
 
 function metadataForEvents(events: HistoricalEvent[]): HistoryEventFilterMetadata {

@@ -280,12 +280,13 @@ API 统一使用 `/api/v1` 前缀、JSON 和 UTF-8。公开接口免登录；管
 #### 查询时间线事件
 
 ```http
-GET /api/v1/events?from=-220&to=300&q=统一&region=<uuid>&figure=<uuid>&category=政治
+GET /api/v1/events?from=-220&to=300&pad=130&q=统一&region=<uuid>&figure=<uuid>&category=政治
 ```
 
 参数：
 
-- `from`、`to` 必填，是时间线坐标且 `from < to`。
+- `from`、`to` 必填，是时间线坐标且 `from < to`；它们始终表示可视范围，用于计算显著度和匹配计数。
+- `pad` 可选，非负有限数值，默认 `0`；表示在可视范围两侧额外读取的历史年数，只扩大返回的事件窗口。
 - `q` 可选，去除首尾空白后最长 100 字符。
 - `period`、`region`、`figure` 可重复出现，值为 UUID。
 - `category` 可重复出现，值为固定主分类。
@@ -316,7 +317,9 @@ GET /api/v1/events?from=-220&to=300&q=统一&region=<uuid>&figure=<uuid>&categor
   ],
   "sourceTotal": 100000,
   "totalMatching": 314,
-  "returnedProminence": 2
+  "returnedProminence": 2,
+  "coveredFrom": -350,
+  "coveredTo": 430
 }
 ```
 
@@ -329,6 +332,14 @@ API 中继续使用现有 `exact-date`、`year`、`circa` 和 `interval` 时间�
 - 可见跨度小于 1200 年：返回 L1–L3。
 
 如果显著度过滤后超过 5,000 条，返回 `422 Unprocessable Content` 和错误码 `result_set_too_large`，前端提示用户缩小时间范围；不得只返回前 5,000 条。
+
+预取窗口规则：
+
+- `coveredFrom = from - pad`，`coveredTo = to + pad`，响应返回实际使用的事件窗口。
+- `events` 是 `[coveredFrom, coveredTo]` 内、显著度符合 `returnedProminence` 的完整集合，可以比可视范围更宽，供前端平移时平滑渲染。
+- `totalMatching` 仍只统计可视范围 `[from, to]` 内匹配搜索与筛选的事件数；显著度过滤发生在计数之后。
+- `returnedProminence` 仍由可视跨度 `to - from` 决定，`pad` 不改变显著度。
+- 5,000 条上限适用于实际返回的 `events`；预取窗口过密时客户端应回退到 `pad=0`。
 
 #### 查询事件详情
 

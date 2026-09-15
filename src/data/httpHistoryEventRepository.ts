@@ -4,15 +4,21 @@ import type {
   HistoricalEvent,
   HistoryEventFilterMetadata,
   HistoryEventQuery,
+  HistoryEventQueryResult,
   HistoryEventRepository,
   PrimaryCategory,
   TimeExpression,
 } from '../domain/history'
-import { HistoryEventQueryTooLargeError } from '../domain/history'
+import { HistoryEventQueryTooLargeError, resolveHistoryEventQueryPadding } from '../domain/history'
 
 interface HttpRepositoryOptions {
   baseUrl?: string
   fetch?: typeof fetch
+  /**
+   * 每次查询在可视范围两侧额外读取的比例；默认 0.5，即事件窗口约为可视范围的两倍。
+   * 设为 0 时只返回可视范围内的历史事件。
+   */
+  paddingRatio?: number
 }
 
 interface ProblemDetails {
@@ -42,6 +48,8 @@ interface ApiEventQueryResult {
   sourceTotal: number
   totalMatching: number
   returnedProminence: EventProminence
+  coveredFrom?: number
+  coveredTo?: number
 }
 
 interface ApiEventFilterMetadata {
@@ -53,6 +61,8 @@ interface ApiEventFilterMetadata {
   figures: CanonicalEntityReference[]
   primaryCategories: PrimaryCategory[]
 }
+
+const defaultPaddingRatio = 0.5
 
 export class HttpRepositoryError extends Error {
   readonly status: number
@@ -71,6 +81,7 @@ export function createHttpHistoryEventRepository(
 ): HistoryEventRepository {
   const baseUrl = options.baseUrl?.replace(/\/$/, '') ?? ''
   const request = options.fetch ?? globalThis.fetch.bind(globalThis)
+  const paddingRatio = options.paddingRatio ?? defaultPaddingRatio
 
   return {
     async getBounds(signal) {
@@ -97,15 +108,19 @@ export function createHttpHistoryEventRepository(
     },
 
     async query(query) {
-      const parameters = createQueryParameters(query)
-      const response = await getJSON<ApiEventQueryResult>(
-        request,
-        `${baseUrl}/api/v1/events?${parameters}`,
-        query.signal,
-      )
-      return {
-        ...response,
-        events: response.events.map(mapHistoricalEvent),
+      const padding = resolveHistoryEventQueryPadding(query, paddingRatio)
+      try {
+        return mapQueryResult(
+          await requestEventQuery(request, baseUrl, query, padding),
+        )
+      } catch (error) {
+        if (padding > 0 && error instanceof HistoryEventQueryTooLargeError) {
+          // 预取窗口可能因过于密集而超限；回退到仅可视范围，保持原有可用性。
+          return mapQueryResult(
+            await requestEventQuery(request, baseUrl, query, 0),
+          )
+        }
+        throw error
       }
     },
 
@@ -120,11 +135,52 @@ export function createHttpHistoryEventRepository(
   }
 }
 
-function createQueryParameters(query: HistoryEventQuery): URLSearchParams {
+function requestEventQuery(
+  request: typeof fetch,
+  baseUrl: string,
+  query: HistoryEventQuery,
+  padding: number,
+): Promise<ApiEventQueryResult> {
+  const parameters = createQueryParameters(query, padding)
+  return getJSON<ApiEventQueryResult>(
+    request,
+    `${baseUrl}/api/v1/events?${parameters}`,
+    query.signal,
+  )
+}
+
+function mapQueryResult(
+  response: ApiEventQueryResult,
+): HistoryEventQueryResult {
+  const {
+    events,
+    sourceTotal,
+    totalMatching,
+    returnedProminence,
+    coveredFrom,
+    coveredTo,
+  } = response
+  const result: HistoryEventQueryResult = {
+    events: events.map(mapHistoricalEvent),
+    sourceTotal,
+    totalMatching,
+    returnedProminence,
+  }
+  if (isFiniteNumber(coveredFrom) && isFiniteNumber(coveredTo)) {
+    result.coveredRange = { start: coveredFrom, end: coveredTo }
+  }
+  return result
+}
+
+function createQueryParameters(
+  query: HistoryEventQuery,
+  padding: number,
+): URLSearchParams {
   const parameters = new URLSearchParams({
     from: formatCoordinate(query.visibleRange.start),
     to: formatCoordinate(query.visibleRange.end),
   })
+  if (padding > 0) parameters.set('pad', formatCoordinate(padding))
   const searchTerm = query.searchTerm?.trim()
   if (searchTerm) parameters.set('q', searchTerm)
 

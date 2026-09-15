@@ -80,19 +80,45 @@ export interface HistoryEventQueryCriteria {
 
 export interface HistoryEventQuery extends HistoryEventQueryCriteria {
   visibleRange: TimeRange
+  /**
+   * 在可视范围两侧额外读取的历史年数，用于预取；数据源可以忽略或限制。
+   * 未提供时由数据源按自身策略决定。它不改变显著度与计数语义。
+   */
+  padding?: number
   signal?: AbortSignal
 }
 
 export interface HistoryEventQueryResult {
+  /** 与 coveredRange 相交的历史事件；未返回 coveredRange 时等同于可视范围内的历史事件。 */
   events: HistoricalEvent[]
   /** 数据源在任何时间范围、搜索或筛选生效前的历史事件总数。 */
   sourceTotal: number
   /** 当前时间范围、搜索和筛选条件匹配的历史事件总数。 */
   totalMatching: number
   returnedProminence: EventProminence
+  /** 本次实际返回事件的时间窗口，通常比可视范围更宽，用于平滑预取。 */
+  coveredRange?: TimeRange
 }
 
 export const maximumHistoryEventQueryResults = 5_000
+
+/**
+ * 解析查询的预取侧宽（历史年数）。查询显式提供 padding 时优先采用，
+ * 否则按可视范围跨度乘以数据源配置的比例计算。
+ */
+export function resolveHistoryEventQueryPadding(
+  query: Pick<HistoryEventQuery, 'visibleRange' | 'padding'>,
+  paddingRatio: number,
+): number {
+  if (query.padding !== undefined) {
+    return Number.isFinite(query.padding) && query.padding > 0
+      ? query.padding
+      : 0
+  }
+  const span = query.visibleRange.end - query.visibleRange.start
+  if (!(span > 0) || !(paddingRatio > 0)) return 0
+  return span * paddingRatio
+}
 
 export class HistoryEventQueryTooLargeError extends Error {
   readonly status = 422

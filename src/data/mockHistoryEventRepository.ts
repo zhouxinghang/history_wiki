@@ -3,12 +3,14 @@ import {
   HistoryEventQueryTooLargeError,
   maximumHistoryEventQueryResults,
   rangesIntersect,
+  resolveHistoryEventQueryPadding,
   timeExpressionRange,
   type EventProminence,
   type CanonicalEntityReference,
   type HistoryEventFilterMetadata,
   type HistoricalEvent,
   type HistoryEventQuery,
+  type HistoryEventQueryResult,
   type HistoryEventRepository,
   type PrimaryCategory,
   type TimeRange,
@@ -17,6 +19,10 @@ import { demoEvents, demoPeriodContexts } from './demoEvents'
 
 export interface MockRepositoryOptions {
   latencyMs?: number
+  /**
+   * 每次查询在可视范围两侧额外读取的比例；默认 0，即只返回可视范围内的历史事件。
+   */
+  paddingRatio?: number
   /** 模拟服务端 period_regions；key/value 均为展示名称。 */
   periodContexts?: Readonly<Record<string, readonly string[]>>
   /** 已知的规范实体元数据，可用于同名消歧测试。 */
@@ -64,6 +70,7 @@ export function createMockHistoryEventRepository(
   )
   const bounds = createBounds(preparedSource)
   const latencyMs = options.latencyMs ?? 90
+  const paddingRatio = options.paddingRatio ?? 0
 
   return {
     async getBounds(signal) {
@@ -86,21 +93,31 @@ export function createMockHistoryEventRepository(
       const returnedProminence = prominenceForSpan(
         query.visibleRange.end - query.visibleRange.start,
       )
+      const padding = resolveHistoryEventQueryPadding(query, paddingRatio)
+      const coveredRange: TimeRange = {
+        start: query.visibleRange.start - padding,
+        end: query.visibleRange.end + padding,
+      }
       const normalizedSearch = normalizeSearchTerm(query.searchTerm)
       let totalMatching = 0
       const returnedEvents: HistoricalEvent[] = []
 
       for (const prepared of preparedSource) {
         if (
-          !rangesIntersect(prepared.range, query.visibleRange) ||
           !matchesSearch(prepared, normalizedSearch) ||
           !matchesFilters(prepared, query.filters)
         ) {
           continue
         }
 
-        totalMatching += 1
-        if (prepared.event.prominence <= returnedProminence) {
+        if (rangesIntersect(prepared.range, query.visibleRange)) {
+          totalMatching += 1
+        }
+
+        if (
+          rangesIntersect(prepared.range, coveredRange) &&
+          prepared.event.prominence <= returnedProminence
+        ) {
           returnedEvents.push(prepared.event)
           if (returnedEvents.length > maximumHistoryEventQueryResults) {
             throw new HistoryEventQueryTooLargeError()
@@ -108,12 +125,14 @@ export function createMockHistoryEventRepository(
         }
       }
 
-      return {
+      const result: HistoryEventQueryResult = {
         events: returnedEvents,
         sourceTotal: source.length,
         totalMatching,
         returnedProminence,
       }
+      if (padding > 0) result.coveredRange = coveredRange
+      return result
     },
 
     async getById(eventId, signal) {

@@ -350,7 +350,20 @@ func (server *Server) events(writer http.ResponseWriter, request *http.Request) 
 		writeInvalidQuery(writer, request, errors.New("q 最长为 100 个字符"))
 		return
 	}
-	server.readPublishedEvents(writer, request, from, to)
+	padding := 0.0
+	if raw := request.URL.Query().Get("pad"); raw != "" {
+		value, err := strconv.ParseFloat(raw, 64)
+		if err != nil || math.IsInf(value, 0) || math.IsNaN(value) || value < 0 {
+			writeInvalidQuery(writer, request, errors.New("pad 必须是非负有限数值"))
+			return
+		}
+		padding = value
+	}
+	if math.IsInf(from-padding, 0) || math.IsInf(to+padding, 0) {
+		writeInvalidQuery(writer, request, errors.New("pad 过大，事件窗口超出可表示范围"))
+		return
+	}
+	server.readPublishedEvents(writer, request, from, to, padding)
 }
 
 func (server *Server) eventByID(writer http.ResponseWriter, request *http.Request) {
